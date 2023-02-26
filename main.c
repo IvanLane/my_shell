@@ -2,35 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "get_line.h"
-
-char **parser(char *str)
-{   
-    int n = 0;
-    for(int i = 0; i < strlen(str); i++)
-    {
-        if(str[i] == ' ')
-            n++;
-    }
-    char **buffer = malloc(sizeof(char*) * n);
-    
-    char *delim = " ";
-    char *token;
-    token = strtok(str, delim);
-
-    int i = 0;
-    while(token != NULL)
-    {
-        buffer[i] = malloc(sizeof(char)*10);
-        memset(buffer[i], 0, 10);
-        buffer[i] = token;
-        token = strtok(NULL, delim);
-        // printf("%s \n", buffer[i]);
-        i++;
-    }
-    buffer[i] = NULL;
-
-    return buffer;
-}
+#include "parser.h"
 
 int main(int argc, char *argv)
 {   
@@ -38,6 +10,7 @@ int main(int argc, char *argv)
     char *exit = "exit"; 
 
     char *str;
+    int number_of_tokens;
     char **tokens;
 
     while(1)
@@ -51,7 +24,7 @@ int main(int argc, char *argv)
             return -1;
         }
 
-        tokens = parser(str);
+        tokens = parser(str, &number_of_tokens);
     }
 
 
