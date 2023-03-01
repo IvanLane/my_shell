@@ -4,7 +4,7 @@
 
 char **parser(char *str, int *number)
 {   
-    int num = 0;
+    int num = 1;
     for(int i = 0; i < strlen(str); i++)
     {
         if(str[i] == ' ')
@@ -25,7 +25,7 @@ char **parser(char *str, int *number)
         memset(buffer[i], 0, 10);
         buffer[i] = token;
         token = strtok(NULL, delim);
-        printf("%s \n", buffer[i]);
+        // printf("%s \n", buffer[i]);
         i++;
     }
     buffer[i] = NULL;
