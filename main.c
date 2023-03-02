@@ -20,28 +20,24 @@ void exec_command(char **tokens)
     char *path = getenv("PATH");
     char *path_token = strtok(path, ":");
     int command_length = strlen(tokens[0]);
-    // printf("%d \n", strlen(tokens[0]));
     struct stat buffer;
 
     while(path_token != NULL)
     {
         char *real_path = malloc(command_length + strlen(path_token) + 2);
-        // memset(real_path, 0, command_length + strlen(path_token) + 2);
         char *p = "\\bin\\ls";
    
         strcpy(real_path, path_token);
         strcat(real_path, "/");
         strcat(real_path, tokens[0]);
         strcat(real_path, "\0");
-        // printf("%s", tokens[0]);
+
         if(stat(real_path, &buffer) == 0)
         {   
-            printf("%s \n", real_path);
-            // break;
-            // if(execve(real_path, tokens, NULL) == -1)
-            // {
-                // perror("ERROR:");
-            // }
+            if(execve(real_path, tokens, NULL) == -1)
+            {
+                perror("ERROR:");
+            }
         }
 
         free(real_path);

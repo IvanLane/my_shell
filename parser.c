@@ -25,15 +25,7 @@ char **parser(char *str, int *number)
         memset(buffer[i], '\0', 10);
         buffer[i] = token;
         token = strtok(NULL, delim);
-        
-        for(int j = 0; j < 10; j++)
-        {
-            printf("%d \n", buffer[i][j]);
-        
-        }
-        // printf("%ld \n", strlen(buffer[i]));
         i++;
-        
     }
      
     buffer[i] = NULL;
