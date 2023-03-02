@@ -17,5 +17,10 @@ char *get_line()
 
         }while(buff[i-1] != '\n');
 
+        if(buff[i - 1] = '\n')
+        {
+            buff[i - 1] = 0;
+        }
+
     return buff;
 }

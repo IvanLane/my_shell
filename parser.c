@@ -3,7 +3,7 @@
 #include <string.h>
 
 char **parser(char *str, int *number)
-{   
+{
     int num = 1;
     for(int i = 0; i < strlen(str); i++)
     {
@@ -22,13 +22,22 @@ char **parser(char *str, int *number)
     while(token != NULL)
     {
         buffer[i] = malloc(sizeof(char)*10);
-        memset(buffer[i], 0, 10);
+        memset(buffer[i], '\0', 10);
         buffer[i] = token;
         token = strtok(NULL, delim);
-        // printf("%s \n", buffer[i]);
+        
+        for(int j = 0; j < 10; j++)
+        {
+            printf("%d \n", buffer[i][j]);
+        
+        }
+        // printf("%ld \n", strlen(buffer[i]));
         i++;
+        
     }
+     
     buffer[i] = NULL;
+    
 
     return buffer;
 }
