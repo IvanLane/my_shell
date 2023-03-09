@@ -11,8 +11,12 @@ char **parser(char *str, int *number)
             num++;
     }
     *number = num;
-    // printf("%d \n", *number);
-    char **buffer = malloc(sizeof(char*)*num);
+    
+    char **buffer;
+    if(!(buffer = malloc(sizeof(char*)*num)))
+    {
+        perror("ERROR");
+    }
     
     char *delim = " ";
     char *token;
