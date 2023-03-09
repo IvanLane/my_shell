@@ -7,10 +7,7 @@
 char *get_line()
 {   
         char *buff; 
-        if(!(buff = malloc(BUFF_SIZE)))
-        {
-            perror("ERROR");
-        }
+        buff = malloc(BUFF_SIZE);
         
         memset(buff, 0, BUFF_SIZE);
         int i = 0;
@@ -22,10 +19,7 @@ char *get_line()
 
             if(i > BUFF_SIZE)
             {   
-                if(!(buff = realloc(buff, BUFF_SIZE)))
-                {
-                    perror("ERROR");
-                }
+                (buff = realloc(buff, BUFF_SIZE));
             }
 
         }while(buff[i-1] != '\n');

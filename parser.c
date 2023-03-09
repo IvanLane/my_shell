@@ -13,10 +13,7 @@ char **parser(char *str, int *number)
     *number = num;
     
     char **buffer;
-    if(!(buffer = malloc(sizeof(char*)*num)))
-    {
-        perror("ERROR");
-    }
+    buffer = malloc(sizeof(char*)*num);
     
     char *delim = " ";
     char *token;

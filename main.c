@@ -18,7 +18,7 @@ void mem_free(char *str, char **tokens)
 
 int main(int argc, char *argv)
 {   
-    char *prompt = "(my_shell) $:";
+    char *prompt = "my_shell_$: ";
     char *exit = "exit"; 
     char *str;
     int number_of_tokens;

@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <errno.h>
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
@@ -10,6 +12,11 @@
 void exec_command(char **tokens)
 {   
     pid_t pid = fork();
+    if(pid == -1)
+    {
+        perror("ERROR");
+        exit(EXIT_FAILURE);
+    }
 
     if(pid != 0)
     {
@@ -37,6 +44,7 @@ void exec_command(char **tokens)
                     if(execve(real_path, tokens, NULL) == -1)
                     {
                         perror("ERROR:");
+                        exit(EXIT_FAILURE);
                     }
                     free(real_path);
                 }
@@ -47,7 +55,7 @@ void exec_command(char **tokens)
                 if(path_token == NULL)
                 {   
                     printf("command \"%s\" is not found \n", tokens[0]);
-                    exit(1);
+                    exit(EXIT_FAILURE);
                 }
             }
     }
