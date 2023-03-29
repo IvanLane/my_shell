@@ -11,16 +11,33 @@
 
 void exec_command(char **tokens)
 {   
+
     pid_t pid = fork();
+    int status;
+    
     if(pid == -1)
     {
-        perror("ERROR");
+        perror("fork");
         exit(EXIT_FAILURE);
     }
 
     if(pid != 0)
     {
-        wait(NULL);
+        waitpid(pid, &status, WUNTRACED | WCONTINUED);
+
+        if(WIFSIGNALED(status))
+        {
+            printf("killed by signal: %d\n", WTERMSIG(status));
+        }
+        else if(WIFSTOPPED(status))
+        {
+            printf("stopped by signal: %d\n", WSTOPSIG(status));
+        }
+        else if(WIFCONTINUED(status))
+        {
+            printf("continued");
+        }
+
     }
     else if(pid == 0)
     {    
@@ -43,7 +60,7 @@ void exec_command(char **tokens)
                 {   
                     if(execve(real_path, tokens, NULL) == -1)
                     {
-                        perror("ERROR:");
+                        perror("execve");
                         exit(EXIT_FAILURE);
                     }
                     free(real_path);
@@ -55,7 +72,7 @@ void exec_command(char **tokens)
                 if(path_token == NULL)
                 {   
                     printf("command \"%s\" is not found \n", tokens[0]);
-                    exit(EXIT_FAILURE);
+                    exit(EXIT_SUCCESS);
                 }
             }
     }
