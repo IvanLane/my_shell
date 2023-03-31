@@ -8,9 +8,15 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 
+#include "token_struct.h"
+#include "exec_command.h"
 
-void exec_command(char **tokens)
+void exec_command(struct command_str **str_tok)
 {   
+
+    char **tokens;
+
+    tokens = str_tok[0]->tokens;
 
     pid_t pid = fork();
     int status;

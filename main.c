@@ -9,9 +9,9 @@
 
 #include "get_line.h"
 #include "parser.h"
-#include "exec_command.h"
-#include "command_table.h"
+// #include "exec_command.h"
 #include "token_struct.h"
+
 
 void mem_free(char *str, char **tokens)
 {
@@ -39,10 +39,13 @@ int main(int argc, char *argv)
         }
 
         tokens = parser(str, &number_of_tokens);
-        exec_command(tokens);
-        // struct command_str *simple = parser(str, &number_of_tokens);
+        struct command_str **simple = command_table(tokens);
+        // simple[0]->tokens
 
-        // printf("%s\n", *simple->command);
+
+
+        printf("%s\n", simple[0]->tokens[1]); //print the secons argument of the tokens
+        // exec_command(simple);
         
     }
 

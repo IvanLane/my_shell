@@ -5,10 +5,15 @@
 #include "token_struct.h"
 
 struct command_str **command_table(char **tokens)
-{
-    
+{   
+    struct command_str sCom[2] = {{tokens}, {tokens}};
+
     struct command_str **simple_command = malloc(sizeof(struct command_str)*2);
-    simple_command[0] = malloc(sizeof(struct command_str));
-    simple_command[0]->command = tokens;
+    simple_command[0] = malloc(sizeof(struct command_str)*1);
+    simple_command[1] = malloc(sizeof(struct command_str)*1);
+    
+    simple_command[0] = &sCom[0];
+
+    return simple_command;
 
 }
