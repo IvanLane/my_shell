@@ -32,8 +32,5 @@ char **parser(char *str, int *number)
      
     buffer[i] = NULL;
 
-    // struct command_str pars;
-    // pars.command;
-
     return buffer;
 }

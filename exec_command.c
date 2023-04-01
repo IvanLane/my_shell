@@ -11,7 +11,7 @@
 #include "token_struct.h"
 #include "exec_command.h"
 
-void exec_command(struct command_str **str_tok)
+void exec_command(Simple_cmd **str_tok)
 {   
 
     char **tokens;

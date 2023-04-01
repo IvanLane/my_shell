@@ -1,11 +1,13 @@
 #ifndef COMMAND_STRUCT_H
 #define COMMAND_STRUCT_H
 
-    struct command_str
-    {
+typedef struct Simple_cmd
+    {   
+        int _pipe;
         char **tokens;   
-    };
+    
+    }Simple_cmd;
 
-    struct command_str **command_table(char **tokens);
+    Simple_cmd **command_table(char **tokens);
 
 #endif

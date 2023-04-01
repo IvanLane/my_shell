@@ -9,14 +9,15 @@
 
 #include "get_line.h"
 #include "parser.h"
-// #include "exec_command.h"
+#include "exec_command.h"
 #include "token_struct.h"
 
 
-void mem_free(char *str, char **tokens)
+void mem_free(char *str, char **tokens, Simple_cmd **simple)
 {
     free(str);
     free(tokens);
+    free(simple);
 }
 
 int main(int argc, char *argv)
@@ -26,27 +27,22 @@ int main(int argc, char *argv)
     char *str;
     int number_of_tokens;
     char **tokens;
-    
+    Simple_cmd **simple;
+
     while(1)
     {   
         printf("%s", prompt);
         str = get_line();
         if(!strcmp(str, exit))
         {
-            mem_free(str, tokens);
+            mem_free(str, tokens, simple);
             printf("your shell is closed\n");
             return -1;
         }
 
         tokens = parser(str, &number_of_tokens);
-        struct command_str **simple = command_table(tokens);
-        // simple[0]->tokens
-
-
-
-        printf("%s\n", simple[0]->tokens[1]); //print the secons argument of the tokens
-        // exec_command(simple);
-        
+        simple = command_table(tokens);
+        exec_command(simple);        
     }
 
 
