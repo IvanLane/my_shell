@@ -3,11 +3,12 @@
 
 typedef struct Simple_cmd
     {   
-        int _pipe;
-        char **tokens;   
+        short _pipe;
+        char *string;   
     
     }Simple_cmd;
 
+    Simple_cmd **parser(char *str, int *number);
     Simple_cmd **command_table(char **tokens);
 
 #endif

@@ -3,34 +3,53 @@
 #include <string.h>
 #include "token_struct.h"
 
-char **parser(char *str, int *number)
+Simple_cmd **parser(char *str, int *number)
 {
+    char delim = '|';
+    char *string = str;
     int num = 1;
+    
     for(int i = 0; i < strlen(str); i++)
     {
-        if(str[i] == ' ')
+        if(str[i] == delim)
             num++;
     }
     *number = num;
     
-    char **buffer;
-    buffer = malloc(sizeof(char*)*num);
-    
-    char *delim = " ";
-    char *token;
-    token = strtok(str, delim);
-
-    int i = 0;
-    while(token != NULL)
+    Simple_cmd **command_t = malloc(sizeof(Simple_cmd*) * num);
+    char **str_buff = malloc(sizeof(char*) * num);
+    for(int i = 0; i < num; i++)
     {
-        buffer[i] = malloc(sizeof(char)*10);
-        memset(buffer[i], '\0', 10);
-        buffer[i] = token;
-        token = strtok(NULL, delim);
-        i++;
+        command_t[i] = malloc(sizeof(Simple_cmd));
+        str_buff[i] = malloc(sizeof(char)*10);
+        memset(str_buff[i], 0, 10);
     }
-     
-    buffer[i] = NULL;
 
-    return buffer;
+    int j = 0;
+    int k = 0;
+    int n = 0;
+
+    while(j < strlen(str))
+    {   
+
+        if(string[j] != delim)
+        {   
+            str_buff[k][n] = string[j];
+            n++;
+        }
+        else
+        {   
+            k++;
+            n = 0;
+            j++;
+        }
+        j++;
+    }
+    
+    for(int i = 0; i < num; i++)
+    {
+        command_t[i]->string = str_buff[i];
+    }
+
+    return command_t;
 }

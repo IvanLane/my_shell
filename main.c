@@ -8,17 +8,16 @@
 #include <fcntl.h>
 
 #include "get_line.h"
-#include "parser.h"
 #include "exec_command.h"
 #include "token_struct.h"
 
 
-void mem_free(char *str, char **tokens, Simple_cmd **simple)
-{
-    free(str);
-    free(tokens);
-    free(simple);
-}
+// void mem_free(char *str, char **tokens, Simple_cmd **simple)
+// {
+//     free(str);
+//     free(tokens);
+//     free(simple);
+// }
 
 int main(int argc, char *argv)
 {   
@@ -27,7 +26,7 @@ int main(int argc, char *argv)
     char *str;
     int number_of_tokens;
     char **tokens;
-    Simple_cmd **simple;
+    Simple_cmd **table;
 
     while(1)
     {   
@@ -35,14 +34,15 @@ int main(int argc, char *argv)
         str = get_line();
         if(!strcmp(str, exit))
         {
-            mem_free(str, tokens, simple);
             printf("your shell is closed\n");
             return -1;
         }
 
-        tokens = parser(str, &number_of_tokens);
-        simple = command_table(tokens);
-        exec_command(simple);        
+        table = parser(str, &number_of_tokens);
+        printf("%s \n", table[0]->string);
+        // printf("%s \n", table[1]->string);
+        // simple = command_table(tokens);
+        // exec_command(simple);        
     }
 
 
