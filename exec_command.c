@@ -9,15 +9,12 @@
 #include <sys/wait.h>
 
 #include "token_struct.h"
-#include "exec_command.h"
-
-#define MAX 10
+#include "simple_comand_tokens.h"
 
 void exec_command(Simple_cmd **command_table)
 {   
     pid_t pid = fork();
     int status;
-    // printf("hi");
     
     if(pid == -1)
     {
@@ -47,55 +44,54 @@ void exec_command(Simple_cmd **command_table)
     {    
         char *path = getenv("PATH");
 
-        char delim = ' ';
-        int count = 1;
-        int z = 0;
+        // char delim = ' ';
+        // int count = 1;
+        // int z = 0;
 
-        while(command_table[0]->string[z] != '\0')
-        {
-            if(command_table[0]->string[z] == delim)
-            {
-                count++;
-            }
-            z++;
-        }
+        // while(command_table[0]->string[z] != '\0')
+        // {
+        //     if(command_table[0]->string[z] == delim)
+        //     {
+        //         count++;
+        //     }
+        //     z++;
+        // }
 
-        char command[count][MAX];
+        // char command[count][MAX];
 
-        int x = 0;
-        int k = 0;
-        int j = 0;
+        // int x = 0;
+        // int k = 0;
+        // int j = 0;
 
-        char **malloc_command = malloc(sizeof(char*) * count);
-        
-        while(1)
-        {   
-            if(command_table[0]->string[x] == delim)
-            {   
-                command[k][j] = 0;
-                malloc_command[k] = malloc(sizeof(char) * MAX);
-                malloc_command[k] = command[k];
-                j = 0;
-                k++;
-                x++;
-            }
-            else if(command_table[0]->string[x] == '\0')
-            {
-                command[k][j] = 0;
-                malloc_command[k] = malloc(sizeof(char) * MAX);
-                malloc_command[k + 1] = malloc(sizeof(char));
-                malloc_command[k] = command[k];
-                malloc_command[k + 1] = NULL;
-                break;
-            }
+        // char **malloc_command = malloc(sizeof(char*) * count);
 
-            command[k][j] = command_table[0]->string[x];
-            j++;
-            x++;
-        }
+        // while(1)
+        // {   
+        //     if(command_table[0]->string[x] == delim)
+        //     {   
+        //         command[k][j] = 0;
+        //         malloc_command[k] = strdup(command[k]);
+        //         j = 0;
+        //         k++;
+        //         x++;
+        //     }
+        //     else if(command_table[0]->string[x] == '\0')
+        //     {
+        //         command[k][j] = 0;
+        //         malloc_command[k] = strdup(command[k]);
+        //         malloc_command[k + 1] = NULL;
+        //         break;
+        //     }
+
+        //     command[k][j] = command_table[0]->string[x];
+        //     j++;
+        //     x++;
+        // }
+
+        char **malloc_command = simple_command_tokens(command_table);
 
         char *command_path = strtok(path, ":");
-        int command_length = strlen(command[0]);
+        int command_length = strlen(malloc_command[0]);
         struct stat buffer;
 
             while(command_path != NULL)
@@ -122,7 +118,7 @@ void exec_command(Simple_cmd **command_table)
 
                 if(command_path == NULL)
                 {   
-                    printf("command \"%s\" is not found \n", command[0]);
+                    printf("command \"%s\" is not found \n", malloc_command[0]);
                     exit(EXIT_SUCCESS);
                 }
             }

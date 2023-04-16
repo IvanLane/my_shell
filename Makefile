@@ -1,7 +1,7 @@
 #Makefile for my_shell
 
-my_shell: main.o get_line.o parser.o exec_command.o
-	gcc -o my_shell main.o get_line.o parser.o exec_command.o
+my_shell: main.o get_line.o parser.o exec_command.o simple_command_tokens.o
+	gcc -o my_shell main.o get_line.o parser.o exec_command.o simple_command_tokens.o
 
 main.o: main.c
 	gcc -c main.c
@@ -11,6 +11,9 @@ get_line.o: get_line.c
 
 parser.o: parser.c
 	gcc -c parser.c 
+
+simple_command_tokens.o: simple_command_tokens.c
+	gcc -c simple_command_tokens.c
 
 exec_command.o: exec_command.c
 	gcc -c exec_command.c
