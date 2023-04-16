@@ -16,11 +16,11 @@ Simple_cmd **parser(char *str, int *number)
     }
     *number = num;
     
-    Simple_cmd **command_t = malloc(sizeof(Simple_cmd*) * num);
+    Simple_cmd **command_table = malloc(sizeof(Simple_cmd*) * num);
     char **str_buff = malloc(sizeof(char*) * num);
     for(int i = 0; i < num; i++)
     {
-        command_t[i] = malloc(sizeof(Simple_cmd));
+        command_table[i] = malloc(sizeof(Simple_cmd));
         str_buff[i] = malloc(sizeof(char)*10);
         memset(str_buff[i], 0, 10);
     }
@@ -40,16 +40,18 @@ Simple_cmd **parser(char *str, int *number)
         else
         {   
             k++;
-            n = 0;
             j++;
+            n = 0;
+            command_table[k]->_pipe = 1;
+            //end struct should be without pipe = 1
         }
         j++;
     }
     
     for(int i = 0; i < num; i++)
     {
-        command_t[i]->string = str_buff[i];
+        command_table[i]->string = str_buff[i];
     }
 
-    return command_t;
+    return command_table;
 }
