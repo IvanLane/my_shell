@@ -2,6 +2,6 @@
 #define SIMPLE_COMMAND_TOKENS
 #include "token_struct.h"  
 
-char **simple_command_tokens(Simple_cmd **command_table);
+char **simple_command_tokens(Simple_cmd **command_table, char *command_string);
 
 #endif

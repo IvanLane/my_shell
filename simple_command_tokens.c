@@ -7,7 +7,7 @@
 #include "token_struct.h"
 #define MAX 10
 
-char **simple_command_tokens(Simple_cmd **command_table)
+char **simple_command_tokens(Simple_cmd **command_table, char *command_string)
 {   
         char delim = ' ';
         int count = 1;
