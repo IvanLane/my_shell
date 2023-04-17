@@ -7,18 +7,18 @@ Simple_cmd **parser(char *str, int *number)
 {
     char delim = '|';
     char *string = str;
-    int num = 1;
+    int count = 1;
     
     for(int i = 0; i < strlen(str); i++)
     {
         if(str[i] == delim)
-            num++;
+            count++;
     }
-    *number = num;
+    *number = count;
     
-    Simple_cmd **command_table = malloc(sizeof(Simple_cmd*) * num);
-    char **str_buff = malloc(sizeof(char*) * num);
-    for(int i = 0; i < num; i++)
+    Simple_cmd **command_table = malloc(sizeof(Simple_cmd*) * count);
+    char **str_buff = malloc(sizeof(char*) * count);
+    for(int i = 0; i < count; i++)
     {
         command_table[i] = malloc(sizeof(Simple_cmd));
         str_buff[i] = malloc(sizeof(char)*10);
@@ -43,13 +43,13 @@ Simple_cmd **parser(char *str, int *number)
             j++;
             n = 0;
             command_table[k]->_pipe = 1;
-            //end struct should be without pipe = 1
         }
         j++;
     }
     
-    for(int i = 0; i < num; i++)
-    {
+    for(int i = 0; i < count; i++)
+    {   
+        command_table[i]->number_of_commands = count;
         command_table[i]->string = str_buff[i];
     }
 

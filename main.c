@@ -39,9 +39,9 @@ int main(int argc, char *argv)
         }
 
         table = parser(str, &number_of_tokens);
-        // printf("%s \n", table[0]->string);
-        // printf("%d \n", table[1]->_pipe);
         // printf("%s \n", table[1]->string);
+        // printf("%d \n", table[1]->_pipe);
+        // printf("%d \n", table[0]->number_of_commands);
         // printf("%s \n", table[2]->string);
         // simple = command_table(tokens);
         exec_command(table);        

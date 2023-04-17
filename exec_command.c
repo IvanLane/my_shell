@@ -22,74 +22,14 @@ void exec_command(Simple_cmd **command_table)
         exit(EXIT_FAILURE);
     }
 
-    if(pid != 0)
-    {
-        waitpid(pid, &status, WUNTRACED | WCONTINUED);
-
-        if(WIFSIGNALED(status))
-        {
-            printf("killed by signal: %d\n", WTERMSIG(status));
-        }
-        else if(WIFSTOPPED(status))
-        {
-            printf("stopped by signal: %d\n", WSTOPSIG(status));
-        }
-        else if(WIFCONTINUED(status))
-        {
-            printf("continued");
-        }
-
-    }
-    else if(pid == 0)
+    if(pid == 0)
     {    
-        char *path = getenv("PATH");
-
-        // char delim = ' ';
-        // int count = 1;
-        // int z = 0;
-
-        // while(command_table[0]->string[z] != '\0')
-        // {
-        //     if(command_table[0]->string[z] == delim)
-        //     {
-        //         count++;
-        //     }
-        //     z++;
-        // }
-
-        // char command[count][MAX];
-
-        // int x = 0;
-        // int k = 0;
-        // int j = 0;
-
-        // char **malloc_command = malloc(sizeof(char*) * count);
-
-        // while(1)
-        // {   
-        //     if(command_table[0]->string[x] == delim)
-        //     {   
-        //         command[k][j] = 0;
-        //         malloc_command[k] = strdup(command[k]);
-        //         j = 0;
-        //         k++;
-        //         x++;
-        //     }
-        //     else if(command_table[0]->string[x] == '\0')
-        //     {
-        //         command[k][j] = 0;
-        //         malloc_command[k] = strdup(command[k]);
-        //         malloc_command[k + 1] = NULL;
-        //         break;
-        //     }
-
-        //     command[k][j] = command_table[0]->string[x];
-        //     j++;
-        //     x++;
-        // }
 
         char **malloc_command = simple_command_tokens(command_table);
 
+    // START TO EXECUTE A SIMPLE PROGRAMM   
+       
+        char *path = getenv("PATH");
         char *command_path = strtok(path, ":");
         int command_length = strlen(malloc_command[0]);
         struct stat buffer;
@@ -105,7 +45,6 @@ void exec_command(Simple_cmd **command_table)
 
                 if(stat(real_path, &buffer) == 0)
                 {   
-                    printf("%s \n", real_path);  
                     if(execve(real_path, malloc_command, NULL) == -1)
                     {
                         perror("execve");
@@ -122,5 +61,23 @@ void exec_command(Simple_cmd **command_table)
                     exit(EXIT_SUCCESS);
                 }
             }
+    }
+
+    else if(pid != 0)
+    {
+        waitpid(pid, &status, WUNTRACED | WCONTINUED);
+
+        if(WIFSIGNALED(status))
+        {
+            printf("killed by signal: %d\n", WTERMSIG(status));
+        }
+        else if(WIFSTOPPED(status))
+        {
+            printf("stopped by signal: %d\n", WSTOPSIG(status));
+        }
+        else if(WIFCONTINUED(status))
+        {
+            printf("continued");
+        }
     }
 }

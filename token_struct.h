@@ -3,6 +3,7 @@
 
 typedef struct Simple_cmd
     {   
+        short number_of_commands;
         short _pipe;
         char *string;   
     
