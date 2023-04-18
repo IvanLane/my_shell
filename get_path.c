@@ -11,10 +11,8 @@
 #include "token_struct.h"
 #include "simple_command_tokens.h"
 
-void execution(char **command_tokens, short count)
+char *get_path(char **command_tokens)
 {
-    for(int i = 0; i < count; i++)
-        {
             char *path = getenv("PATH");
             char *command_path = strtok(path, ":");
             int command_length = strlen(command_tokens[0]);
@@ -23,7 +21,7 @@ void execution(char **command_tokens, short count)
                 while(command_path != NULL)
                 {
                     char *real_path = malloc(command_length + strlen(command_path) + 2);
-            
+
                     strcpy(real_path, command_path);
                     strcat(real_path, "/");
                     strcat(real_path, command_tokens[0]);
@@ -31,11 +29,7 @@ void execution(char **command_tokens, short count)
 
                     if(stat(real_path, &buffer) == 0)
                     {   
-                        if(execve(real_path, command_tokens, NULL) == -1)
-                        {
-                            perror("execve");
-                            exit(EXIT_FAILURE);
-                        }
+                        return real_path;
                     }
 
                     free(real_path);
@@ -47,5 +41,5 @@ void execution(char **command_tokens, short count)
                         exit(EXIT_SUCCESS);
                     }
                 }
-        }
+
 }

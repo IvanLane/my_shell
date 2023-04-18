@@ -28,14 +28,14 @@ char **simple_command_tokens(Simple_cmd **command_table, char *command_string)
         int k = 0;
         int j = 0;
 
-        char **malloc_command = malloc(sizeof(char*) * count);
+        char **simple_command = malloc(sizeof(char*) * count);
 
         while(1)
         {   
             if(command_table[0]->string[x] == delim)
             {   
                 command[k][j] = 0;
-                malloc_command[k] = strdup(command[k]);
+                simple_command[k] = strdup(command[k]);
                 j = 0;
                 k++;
                 x++;
@@ -43,8 +43,8 @@ char **simple_command_tokens(Simple_cmd **command_table, char *command_string)
             else if(command_table[0]->string[x] == '\0')
             {
                 command[k][j] = 0;
-                malloc_command[k] = strdup(command[k]);
-                malloc_command[k + 1] = NULL;
+                simple_command[k] = strdup(command[k]);
+                simple_command[k + 1] = NULL;
                 break;
             }
 
@@ -53,5 +53,5 @@ char **simple_command_tokens(Simple_cmd **command_table, char *command_string)
             x++;
         }
 
-    return malloc_command;
+    return simple_command;
 }
