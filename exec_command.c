@@ -34,6 +34,7 @@ void exec_command(Simple_cmd **command_table)
         if (pipe(fd[i]) == -1)
             perror("pipe");
         }
+
     char **command_tokens;
         
 

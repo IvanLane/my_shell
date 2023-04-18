@@ -10,6 +10,7 @@
 #include "get_line.h"
 #include "exec_command.h"
 #include "token_struct.h"
+#include "parser.h"
 #include "memory_free.h"
 
 
@@ -20,6 +21,7 @@ int main(int argc, char *argv)
     char *exit = "exit"; 
     char *str;
     int number_of_tokens;
+    char **parse_commands;
     Simple_cmd **table;
 
     while(1)
@@ -32,10 +34,11 @@ int main(int argc, char *argv)
             return -1;
         }
 
-        table = parser(str, &number_of_tokens);
+        parse_commands = parser(str);
+        table = command_table(parse_commands, str);
         exec_command(table);
 
-        memory_free(table, str);  
+        memory_free(table, parse_commands, str);  
     
     }
 

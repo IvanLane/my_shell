@@ -9,6 +9,6 @@ typedef struct Simple_cmd
     
     }Simple_cmd;
 
-    Simple_cmd **parser(char *str, int *number);
+    Simple_cmd **command_table(char **parser, char *line);
 
 #endif
