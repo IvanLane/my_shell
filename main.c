@@ -10,14 +10,9 @@
 #include "get_line.h"
 #include "exec_command.h"
 #include "token_struct.h"
+#include "memory_free.h"
 
 
-// void mem_free(char *str, char **tokens, Simple_cmd **simple)
-// {
-//     free(str);
-//     free(tokens);
-//     free(simple);
-// }
 
 int main(int argc, char *argv)
 {   
@@ -25,7 +20,6 @@ int main(int argc, char *argv)
     char *exit = "exit"; 
     char *str;
     int number_of_tokens;
-    char **tokens;
     Simple_cmd **table;
 
     while(1)
@@ -33,19 +27,16 @@ int main(int argc, char *argv)
         printf("%s", prompt);
         str = get_line();
         if(!strcmp(str, exit))
-        {
+        {   
             printf("your shell is closed\n");
             return -1;
         }
 
         table = parser(str, &number_of_tokens);
-        // printf("%s \n", table[0]->string);
-        // printf("%s \n", table[1]->string);
-        // printf("%d \n", table[1]->_pipe);
-        // printf("%d \n", table[0]->number_of_commands);
-        // printf("%s \n", table[2]->string);
-        // simple = command_table(tokens);
-        exec_command(table);        
+        exec_command(table);
+
+        memory_free(table, str);  
+    
     }
 
 
