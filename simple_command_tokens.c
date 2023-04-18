@@ -7,15 +7,15 @@
 #include "token_struct.h"
 #define MAX 10
 
-char **simple_command_tokens(Simple_cmd **command_table, char *command_string)
+char **simple_command_tokens(Simple_cmd **command_table, int pid_numb, char *command_string)
 {   
         char delim = ' ';
         int count = 1;
         int z = 0;
 
-     while(command_table[0]->string[z] != '\0')
+     while(command_table[pid_numb]->string[z] != '\0')
         {
-            if(command_table[0]->string[z] == delim)
+            if(command_table[pid_numb]->string[z] == delim)
             {
                 count++;
             }
@@ -32,7 +32,7 @@ char **simple_command_tokens(Simple_cmd **command_table, char *command_string)
 
         while(1)
         {   
-            if(command_table[0]->string[x] == delim)
+            if(command_table[pid_numb]->string[x] == delim)
             {   
                 command[k][j] = 0;
                 simple_command[k] = strdup(command[k]);
@@ -40,7 +40,7 @@ char **simple_command_tokens(Simple_cmd **command_table, char *command_string)
                 k++;
                 x++;
             }
-            else if(command_table[0]->string[x] == '\0')
+            else if(command_table[pid_numb]->string[x] == '\0')
             {
                 command[k][j] = 0;
                 simple_command[k] = strdup(command[k]);
@@ -48,7 +48,7 @@ char **simple_command_tokens(Simple_cmd **command_table, char *command_string)
                 break;
             }
 
-            command[k][j] = command_table[0]->string[x];
+            command[k][j] = command_table[pid_numb]->string[x];
             j++;
             x++;
         }

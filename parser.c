@@ -39,6 +39,7 @@ Simple_cmd **parser(char *str, int *number)
         }
         else
         {   
+            str_buff[k][n - 1] = 0;
             k++;
             j++;
             n = 0;
