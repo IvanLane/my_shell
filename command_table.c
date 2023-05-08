@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "parser.h"
 #include "token_struct.h"
+#include "simple_command_tokens.h"
 
 Simple_cmd **command_table(char **parser, char *line)
 {
@@ -16,20 +16,15 @@ Simple_cmd **command_table(char **parser, char *line)
         i++;
     }
     
-    Simple_cmd **cmd = malloc(sizeof(Simple_cmd*) * count);
+    Simple_cmd **cmd_table = malloc(sizeof(Simple_cmd*) * count);
  
     for(int i = 0; i < count; i++)
     {
-        cmd[i] = malloc(sizeof(Simple_cmd));
+        cmd_table[i] = malloc(sizeof(Simple_cmd));
+        cmd_table[i]->string = parser[i];
+        cmd_table[i]->pnt_token_func = simple_command_tokens;
+        cmd_table[i]->command_tokens =cmd_table[i]->pnt_token_func(cmd_table[i]->string);
     }
 
-    for(int i = 0; i < count; i++)
-    {   
-        if(i > 0)
-                cmd[i]->_pipe = 1;
-        cmd[i]->number_of_commands = count;
-        cmd[i]->string = parser[i];
-    }
-
-    return cmd;
+    return cmd_table;
 }

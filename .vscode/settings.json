@@ -1,6 +1,7 @@
 {
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
-        "token_struct.h": "c"
+        "token_struct.h": "c",
+        "simple_command_tokens.h": "c"
     }
 }

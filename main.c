@@ -8,10 +8,9 @@
 #include <fcntl.h>
 
 #include "get_line.h"
-#include "exec_command.h"
 #include "token_struct.h"
 #include "parser.h"
-#include "memory_free.h"
+#include "simple_command_tokens.h"
 
 
 
@@ -35,12 +34,13 @@ int main(int argc, char *argv)
         }
 
         parse_commands = parser(str);
+        char **cmd_tokens = simple_command_tokens(parse_commands[0]);
         table = command_table(parse_commands, str);
-        exec_command(table);
-
-        memory_free(table, parse_commands, str);  
-    
-    }
+       
+        printf("%s\n", table[0]->command_tokens[0]);
+        printf("%s\n", table[0]->command_tokens[1]);
+        printf("%s\n", table[1]->command_tokens[0]);
+     }
 
 
       
