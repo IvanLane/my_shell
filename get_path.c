@@ -13,33 +13,44 @@
 
 char *get_path(char **command_tokens)
 {
-            char *path = getenv("PATH");
-            char *command_path = strtok(path, ":");
-            int command_length = strlen(command_tokens[0]);
-            struct stat buffer;
+    char *path = getenv("PATH");
+    struct stat buffer;
+    int count = 1;
+    
+    for(int i = 0; i < strlen(path); i++)
+    {
+        if(path[i] == ':')
+        count++;
+    }
 
-                while(command_path != NULL)
-                {
-                    char *real_path = malloc(command_length + strlen(command_path) + 2);
+    char *real_path = malloc(sizeof(char) * 50);
+    memset(real_path, 0, 50);
 
-                    strcpy(real_path, command_path);
-                    strcat(real_path, "/");
-                    strcat(real_path, command_tokens[0]);
-                    strcat(real_path, "\0");
+    int j = 0;
+    for(int i = 0; i < strlen(path); i++)
+    {   
+        if(path[i] == ':')
+        {   
+            strcat(real_path, "/");
+            strcat(real_path, command_tokens[0]);
+            strcat(real_path, "\0");
+                    
+            if(stat(real_path, &buffer) == 0)
+            {   
+                return real_path;
+            }
+            memset(real_path, 0, 50);
+            j = 0;
+            i++;
+        }
 
-                    if(stat(real_path, &buffer) == 0)
-                    {   
-                        return real_path;
-                    }
-
-                    free(real_path);
-                    command_path = strtok(NULL, ":");
-
-                    if(command_path == NULL)
-                    {   
-                        printf("command \"%s\" is not found \n", command_tokens[0]);
-                        exit(EXIT_SUCCESS);
-                    }
-                }
+        real_path[j] = path[i];
+        j++;
+    }
+        
+    if(!real_path, &buffer)
+    {   
+        printf("command \"%s\" is not found \n", command_tokens[0]);
+    }
 
 }

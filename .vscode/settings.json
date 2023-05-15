@@ -2,6 +2,7 @@
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
         "token_struct.h": "c",
-        "simple_command_tokens.h": "c"
+        "simple_command_tokens.h": "c",
+        "memory_free.h": "c"
     }
 }

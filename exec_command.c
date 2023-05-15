@@ -11,10 +11,11 @@
 #include "token_struct.h"
 #include "simple_command_tokens.h"
 #include "get_path.h"
+#include "number_of_command.h"
 
-void exec_command(Simple_cmd **command_table)
+void exec_command(Simple_cmd **command_table, int number_of_cmd)
 {   
-    int count = command_table[0]->number_of_commands;
+    int count = number_of_cmd;
     int status;
     
     int fd_index = count - 1;
@@ -55,9 +56,7 @@ void exec_command(Simple_cmd **command_table)
                     {
                         close(fd[pid_numb][0]);
                         close(fd[pid_numb][1]);
-                        char **command_tokens = simple_command_tokens(command_table, pid_numb, command_table[pid_numb]->string);
-                        path[pid_numb] = get_path(command_tokens);
-                        if(execve(path[pid_numb], command_tokens, NULL) == -1)
+                        if(execve(command_table[pid_numb]->path, command_table[pid_numb]->command_tokens, NULL) == -1)
                         {
                             perror("execve");
                             exit(EXIT_FAILURE);
@@ -71,9 +70,7 @@ void exec_command(Simple_cmd **command_table)
                             close(fd[j][0]);
                             close(fd[j][1]);
                         }
-                        command_tokens = simple_command_tokens(command_table, pid_numb, command_table[pid_numb]->string); 
-                        path[pid_numb] = get_path(command_tokens);
-                        if(execve(path[pid_numb], command_tokens, NULL) == -1)
+                        if(execve(command_table[pid_numb]->path, command_table[pid_numb]->command_tokens, NULL) == -1)
                         {
                             perror("execve");
                             exit(EXIT_FAILURE);
@@ -92,9 +89,7 @@ void exec_command(Simple_cmd **command_table)
                         close(fd[j][0]);
                         close(fd[j][1]);
                     }
-                    command_tokens = simple_command_tokens(command_table, pid_numb, command_table[pid_numb]->string); 
-                    path[pid_numb] = get_path(command_tokens);
-                    if(execve(path[pid_numb], command_tokens, NULL) == -1)
+                    if(execve(command_table[pid_numb]->path, command_table[pid_numb]->command_tokens, NULL) == -1)
                     {
                         perror("execve");
                         exit(EXIT_FAILURE);
@@ -113,9 +108,7 @@ void exec_command(Simple_cmd **command_table)
                         close(fd[j][0]);
                         close(fd[j][1]);
                     }
-                    command_tokens = simple_command_tokens(command_table, pid_numb, command_table[pid_numb]->string); 
-                    path[pid_numb] = get_path(command_tokens);
-                    if(execve(path[pid_numb], command_tokens, NULL) == -1)
+                    if(execve(command_table[pid_numb]->path, command_table[pid_numb]->command_tokens, NULL) == -1)
                     {
                         perror("execve");
                         exit(EXIT_FAILURE);

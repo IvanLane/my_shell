@@ -1,11 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
-#include <errno.h>
 
 #include "token_struct.h"
-#define MAX 10
+#define MAX 50
 
 char **simple_command_tokens(char *command_string)
 {   

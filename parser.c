@@ -2,46 +2,41 @@
 #include <stdlib.h>
 #include <string.h>
 
-char **parser(char *str)
+#define MAX 10
+
+char **parser(char *line, int number_of_cmd)
 {
     char delim = '|';
-    char *string = str;
-    int count = 1;
+  
+    int count = number_of_cmd;
     
-    for(int i = 0; i < strlen(str); i++)
-    {
-        if(str[i] == delim)
-            count++;
-    }
-    
-    char **str_buff = malloc(sizeof(char*) * count);
+    char **parse_commands = malloc(sizeof(char*) * count);
     for(int i = 0; i < count; i++)
     {
-        str_buff[i] = malloc(sizeof(char)*10);
-        memset(str_buff[i], 0, 10);
+        parse_commands[i] = malloc(sizeof(char)*MAX);
+        memset(parse_commands[i], 0, MAX);
     }
 
-    int j = 0;
+    int index = 0;
     int k = 0;
-    int n = 0;
+    int j = 0;
 
-    while(j < strlen(str))
+    while(index < strlen(line))
     {   
-
-        if(string[j] != delim)
+        if(line[index] != delim)
         {   
-            str_buff[k][n] = string[j];
-            n++;
+            parse_commands[k][j] = line[index];
+            j++;
         }
         else
         {   
-            str_buff[k][n - 1] = 0;
+            parse_commands[k][j - 1] = 0;
             k++;
-            j++;
-            n = 0;
+            index++;
+            j = 0;
         }
-        j++;
+        index++;
     }
 
-    return str_buff;
+    return parse_commands;
 }
