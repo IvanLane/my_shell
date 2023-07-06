@@ -16,6 +16,7 @@ Simple_cmd **command_table(char **parser, char *line)
             count++;
         i++;
     }
+
     
     Simple_cmd **cmd_table = malloc(sizeof(Simple_cmd*) * count);
  
@@ -27,7 +28,6 @@ Simple_cmd **command_table(char **parser, char *line)
         cmd_table[i]->command_tokens = cmd_table[i]->pnt_token_func(cmd_table[i]->string);
         cmd_table[i]->pnt_get_path = get_path;
         cmd_table[i]->path = cmd_table[i]->pnt_get_path(cmd_table[i]->command_tokens);
-
     }
 
     return cmd_table;

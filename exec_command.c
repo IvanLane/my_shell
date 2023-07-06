@@ -7,25 +7,20 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
+#include <fcntl.h>
 
 #include "token_struct.h"
 #include "simple_command_tokens.h"
 #include "get_path.h"
 #include "number_of_command.h"
+#include "check_symbols.h"
 
-void exec_command(Simple_cmd **command_table, int number_of_cmd)
+void exec_command(Simple_cmd **command_table, int number_of_cmd, char *great_string)
 {   
     int count = number_of_cmd;
     int status;
     
     int fd_index = count - 1;
-
-    char **path = malloc(sizeof(char*) * count);
-    for(int i = 0; i < count; i++)
-    {
-        path[i] = malloc(sizeof(char) * 100);
-        memset(path[i], 0, 100);
-    }
     
     int fd[fd_index][2];
     pid_t pids[count];
@@ -54,6 +49,17 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd)
                 {
                     if(count == 1)
                     {
+                        if (great_string != 0)
+                        {
+                            int file_d = open(great_string, O_RDWR | O_CREAT, 0666);
+                            dup2(file_d, STDOUT_FILENO);
+                            close(file_d);
+                            close(fd[pid_numb][0]);
+                            close(fd[pid_numb][1]);
+                            execve(command_table[pid_numb]->path, command_table[pid_numb]->command_tokens, NULL);
+                        }
+                    else
+                    {
                         close(fd[pid_numb][0]);
                         close(fd[pid_numb][1]);
                         if(execve(command_table[pid_numb]->path, command_table[pid_numb]->command_tokens, NULL) == -1)
@@ -62,8 +68,9 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd)
                             exit(EXIT_FAILURE);
                         }
                     }
+                    }
                     else
-                    {   
+                    { 
                         dup2(fd[pid_numb][1], STDOUT_FILENO);
                         for(int j = 0; j < fd_index; j++)
                         {
@@ -79,7 +86,7 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd)
                 }           
             }
             else if(pid_numb == count - 1)
-            {
+            {             
                 pids[pid_numb] = fork();
                 if(pids[pid_numb] == 0)
                 {   
@@ -89,10 +96,23 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd)
                         close(fd[j][0]);
                         close(fd[j][1]);
                     }
-                    if(execve(command_table[pid_numb]->path, command_table[pid_numb]->command_tokens, NULL) == -1)
+
+                    if(great_string != 0)
+                        {
+                            int file_d = open(great_string, O_RDWR | O_CREAT, 0666);
+                            dup2(file_d, STDOUT_FILENO);
+                            close(file_d);
+                            close(fd[pid_numb][0]);
+                            close(fd[pid_numb][1]);
+                            execve(command_table[pid_numb]->path, command_table[pid_numb]->command_tokens, NULL);
+                        }
+                    else
                     {
-                        perror("execve");
-                        exit(EXIT_FAILURE);
+                        if(execve(command_table[pid_numb]->path, command_table[pid_numb]->command_tokens, NULL) == -1)
+                        {
+                            perror("execve");
+                            exit(EXIT_FAILURE);
+                        }
                     }
                 }         
             }
@@ -122,12 +142,6 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd)
             close(fd[i][0]);
             close(fd[i][1]);
         }
-
-        for(int i = 0; i < count; i++)
-        {
-            free(path[i]);
-        }
-        free(path);
 
         for(int i = 0; i < count; i++)
         {

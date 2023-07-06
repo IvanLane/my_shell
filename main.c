@@ -8,6 +8,7 @@
 #include <fcntl.h>
 
 #include "get_line.h"
+#include "check_symbols.h"
 #include "number_of_command.h"
 #include "parser.h"
 #include "simple_command_tokens.h"
@@ -20,7 +21,8 @@ int main(int argc, char *argv)
 {   
     char *prompt = "my_shell_$: ";
     char *exit = "exit"; 
-    
+
+    char *great_string;    
     char *line;
     int number_of_cmd;
     char **parse_commands;
@@ -36,17 +38,13 @@ int main(int argc, char *argv)
             return -1;
         }
 
+
+        great_string = check_symbols(line);
+        printf("%d\n", *great_string);
         number_of_cmd = number_of_commands(line);
         parse_commands = parser(line, number_of_cmd);
-
-        for(int i = 0; i < number_of_cmd; i++)
-        {
-            char **cmd_tokens = simple_command_tokens(parse_commands[i]);
-        }
-
         cmd_table = command_table(parse_commands, line);
-        exec_command(cmd_table, number_of_cmd);
-        
+        exec_command(cmd_table, number_of_cmd, great_string);        
         memory_free(number_of_cmd, cmd_table, parse_commands, line);
      }
 

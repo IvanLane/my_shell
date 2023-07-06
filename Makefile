@@ -1,10 +1,13 @@
 #Makefile for my_shell
 
-my_shell: main.o get_line.o number_of_command.o parser.o command_table.o simple_command_tokens.o get_path.o exec_command.o memory_free.o
-	gcc -o my_shell main.o get_line.o number_of_command.o parser.o command_table.o simple_command_tokens.o get_path.o exec_command.o memory_free.o
+my_shell: main.o get_line.o check_symbols.o number_of_command.o parser.o command_table.o simple_command_tokens.o get_path.o exec_command.o memory_free.o
+	gcc -o my_shell main.o get_line.o check_symbols.o number_of_command.o parser.o command_table.o simple_command_tokens.o get_path.o exec_command.o memory_free.o
 
 main.o: main.c
 	gcc -c main.c
+
+check_symbols.o: check_symbols.c
+	gcc -c check_symbols.c
 
 get_line.o: get_line.c
 	gcc -c get_line.c
