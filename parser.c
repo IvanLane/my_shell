@@ -8,20 +8,18 @@ char **parser(char *line, int number_of_cmd)
 {
     char delim_pipe = '|';
 
-    int great_index = strlen(line);
-
     for(int i = 0; i < strlen(line); i++)
     {
-        if(line[i] == '>')
-            great_index = i;
-    }
-
-    for(int i = 0; i < strlen(line); i++)
-    {   
-
-        if(i >= great_index) 
+        if(line[i] == '>' && line[i + 1] != '>')
+        {    
             line[i-1] = '\0';
+        }
+        else if(line[i] == '>' && line[i + 1] == '>')
+        {
+            line[i-1] = '\0';
+        }
     }
+
 
     int count = number_of_cmd;
     

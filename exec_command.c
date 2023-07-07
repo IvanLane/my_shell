@@ -13,9 +13,9 @@
 #include "simple_command_tokens.h"
 #include "get_path.h"
 #include "number_of_command.h"
-#include "check_symbols.h"
+#include "infile.h"
 
-void exec_command(Simple_cmd **command_table, int number_of_cmd, char *great_string)
+void exec_command(Simple_cmd **command_table, int number_of_cmd, char *infile, char *append_infile)
 {   
     int count = number_of_cmd;
     int status;
@@ -25,13 +25,15 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd, char *great_str
     int fd[fd_index][2];
     pid_t pids[count];
 
-    for (int i = 0; i < count; i++)
+    if(count > 1)
     {
-        if (pipe(fd[i]) == -1)
-            perror("pipe");
-        }
-
-    char **command_tokens;
+        for (int i = 0; i < count; i++)
+        {
+            if (pipe(fd[i]) == -1)
+                perror("pipe");
+            }
+    }
+    // char **command_tokens;
         
 
         for(int pid_numb = 0; pid_numb < count; pid_numb++ )
@@ -49,25 +51,34 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd, char *great_str
                 {
                     if(count == 1)
                     {
-                        if (great_string != 0)
+                        if(infile > 0)
                         {
-                            int file_d = open(great_string, O_RDWR | O_CREAT, 0666);
+                            int file_d = open(infile, O_RDWR | O_CREAT, 0777);
                             dup2(file_d, STDOUT_FILENO);
                             close(file_d);
-                            close(fd[pid_numb][0]);
-                            close(fd[pid_numb][1]);
+                            // close(fd[pid_numb][0]);
+                            // close(fd[pid_numb][1]);
                             execve(command_table[pid_numb]->path, command_table[pid_numb]->command_tokens, NULL);
                         }
-                    else
-                    {
-                        close(fd[pid_numb][0]);
-                        close(fd[pid_numb][1]);
-                        if(execve(command_table[pid_numb]->path, command_table[pid_numb]->command_tokens, NULL) == -1)
+                        else if(append_infile > 0)
                         {
-                            perror("execve");
-                            exit(EXIT_FAILURE);
+                            int file_d = open(append_infile, O_RDWR | O_APPEND, 0777);
+                            dup2(file_d, STDOUT_FILENO);
+                            close(file_d);
+                            // close(fd[pid_numb][0]);
+                            // close(fd[pid_numb][1]);
+                            execve(command_table[pid_numb]->path, command_table[pid_numb]->command_tokens, NULL);
                         }
-                    }
+                        else
+                        {
+                            // close(fd[pid_numb][0]);
+                            // close(fd[pid_numb][1]);
+                            if(execve(command_table[pid_numb]->path, command_table[pid_numb]->command_tokens, NULL) == -1)
+                            {
+                                perror("execve");
+                                exit(EXIT_FAILURE);
+                            }
+                        }
                     }
                     else
                     { 
@@ -97,15 +108,24 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd, char *great_str
                         close(fd[j][1]);
                     }
 
-                    if(great_string != 0)
-                        {
-                            int file_d = open(great_string, O_RDWR | O_CREAT, 0666);
-                            dup2(file_d, STDOUT_FILENO);
-                            close(file_d);
-                            close(fd[pid_numb][0]);
-                            close(fd[pid_numb][1]);
-                            execve(command_table[pid_numb]->path, command_table[pid_numb]->command_tokens, NULL);
-                        }
+                    if(infile > 0)
+                    {
+                        int file_d = open(infile, O_RDWR | O_CREAT, 0777);
+                        dup2(file_d, STDOUT_FILENO);
+                        close(file_d);
+                        close(fd[pid_numb][0]);
+                        close(fd[pid_numb][1]);
+                        execve(command_table[pid_numb]->path, command_table[pid_numb]->command_tokens, NULL);
+                    }
+                    else if(append_infile > 0)
+                    {
+                        int file_d = open(append_infile, O_RDWR | O_APPEND, 0777);
+                        dup2(file_d, STDOUT_FILENO);
+                        close(file_d);
+                        close(fd[pid_numb][0]);
+                        close(fd[pid_numb][1]);
+                        execve(command_table[pid_numb]->path, command_table[pid_numb]->command_tokens, NULL);
+                    }    
                     else
                     {
                         if(execve(command_table[pid_numb]->path, command_table[pid_numb]->command_tokens, NULL) == -1)
