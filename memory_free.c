@@ -20,9 +20,11 @@ void memory_free(int number_of_cmd, Simple_cmd **command_table, char **parser, c
 
     free(command_table);
     
-    free(infile);
+    if(infile > 0)
+        free(infile);
 
-    free(append);
+    if(append > 0)
+        free(append);
 
     free(parser);
 

@@ -1,7 +1,7 @@
 #Makefile for my_shell
 
-my_shell: main.o get_line.o append_infile.o infile.o number_of_command.o parser.o command_table.o simple_command_tokens.o get_path.o exec_command.o memory_free.o
-	gcc -o my_shell main.o get_line.o infile.o append_infile.o number_of_command.o parser.o command_table.o simple_command_tokens.o get_path.o exec_command.o memory_free.o
+my_shell: main.o get_line.o append_infile.o cd_command.o infile.o number_of_command.o parser.o command_table.o simple_command_tokens.o tokens_number.o get_path.o exec_command.o memory_free.o
+	gcc -o my_shell main.o get_line.o infile.o cd_command.o append_infile.o number_of_command.o parser.o command_table.o simple_command_tokens.o tokens_number.o get_path.o exec_command.o memory_free.o
 
 main.o: main.c
 	gcc -c main.c
@@ -12,6 +12,8 @@ infile.o: infile.c
 append_infile.o: append_infile.c
 	gcc -c append_infile.c
 
+cd_command.o: cd_command.c
+	gcc -c cd_command.c
 
 get_line.o: get_line.c
 	gcc -c get_line.c
@@ -27,6 +29,9 @@ command_table.o: command_table.c
 
 simple_command_tokens.o: simple_command_tokens.c
 	gcc -c simple_command_tokens.c
+
+tokens_number.o: tokens_number.c
+	gcc -c tokens_number.c
 
 get_path.o: get_path.c
 	gcc -c get_path.c
