@@ -8,9 +8,9 @@
 #include <fcntl.h>
 
 #include "get_line.h"
+#include "internal_commands.h"
 #include "infile.h"
 #include "append_infile.h"
-#include "cd_command.h"
 #include "number_of_command.h"
 #include "parser.h"
 #include "simple_command_tokens.h"
@@ -47,26 +47,26 @@ int main(int argc, char *argv)
             return -1;
         } 
 
-        infile_string = infile(line);
-        append_infile_string = append_infile(line);
         tokens = simple_command_tokens(line);        
         number_of_cmd = number_of_commands(line);
-        parse_commands = parser(line, number_of_cmd);
         
-        if(!strcmp(tokens[0], "cd"))
+        if(!strcmp(tokens[0], "newdir") || !strcmp(tokens[0], "cd"))
         {
-            cd_command(tokens);
+            internal_commands(tokens);
             for(int i = 0; i < tokens_number(line); i++)
             {
                 free(tokens[i]);
             }
-            free(tokens);
+            free(tokens);           
             continue;
         }
 
+        infile_string = infile(line);
+        append_infile_string = append_infile(line);        
+        parse_commands = parser(line, number_of_cmd);
         cmd_table = command_table(parse_commands, line);
         exec_command(cmd_table, number_of_cmd, infile_string, append_infile_string);        
-        memory_free(number_of_cmd, cmd_table, parse_commands, line, infile_string, append_infile_string);
+        memory_free(number_of_cmd, cmd_table, parse_commands, line, infile_string, append_infile_string, tokens);
      }
 
 
