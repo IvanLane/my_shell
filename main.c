@@ -9,6 +9,7 @@
 
 #include "get_line.h"
 #include "internal_commands.h"
+#include "check_internal_cmds.h"
 #include "infile.h"
 #include "append_infile.h"
 #include "number_of_command.h"
@@ -23,7 +24,8 @@
 int main(int argc, char *argv)
 {   
     char *prompt = "my_shell: ";
-    char *exit = "exit"; 
+    char *exit_shell = "exit"; 
+    char *internal_cmds[3] = {"cd", "newdir", "rvdir"};
 
     char *infile_string;    
     char *append_infile_string;
@@ -41,23 +43,18 @@ int main(int argc, char *argv)
         printf("%s$ ", work_dir);
 
         line = get_line();
-        if(!strcmp(line, exit))
+        if(!strcmp(line, exit_shell))
         {   
             printf("your shell is closed\n");
-            return -1;
+            exit(EXIT_SUCCESS);
         } 
 
         tokens = simple_command_tokens(line);        
         number_of_cmd = number_of_commands(line);
         
-        if(!strcmp(tokens[0], "newdir") || !strcmp(tokens[0], "cd"))
+        if(check_internal_cmds(internal_cmds, tokens) == 1)
         {
-            internal_commands(tokens);
-            for(int i = 0; i < tokens_number(line); i++)
-            {
-                free(tokens[i]);
-            }
-            free(tokens);           
+            internal_commands(tokens, line, tokens_number(line));
             continue;
         }
 

@@ -8,7 +8,7 @@
 #include "parser.h"
 
 
-void memory_free(int number_of_cmd, Simple_cmd **command_table, char **parser, char *line, char *infile, char *append,char  **tokens)
+void memory_free(int number_of_cmd, Simple_cmd **command_table, char **parser, char *line, char *infile, char *append, char  **tokens)
 {   
     int count = number_of_cmd;
 

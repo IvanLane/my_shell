@@ -1,10 +1,11 @@
 #include <string.h>
-#include "stdio.h"
-#include "unistd.h"
-#include "sys/stat.h"
-#include "sys/types.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
-void internal_commands(char **tokens)
+void internal_commands(char **tokens, char *line, int tokens_number)
 {   
     struct stat buff;
 
@@ -23,4 +24,19 @@ void internal_commands(char **tokens)
         else
             printf("directory exists\n");
     }
+    else if(!strcmp(tokens[0], "rvdir"))
+    {   
+        if(stat(tokens[1], &buff) == 0)
+        {
+            rmdir(tokens[1]);
+        }
+        else
+            printf("directory is not exist\n");
+    }
+
+    for(int i = 0; i < tokens_number; i++)
+            {
+                free(tokens[i]);
+            }
+            free(tokens);   
 }
