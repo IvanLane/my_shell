@@ -1,5 +1,5 @@
-#ifndef _INFILE
-#define _INFILE
+#ifndef INFILE_H
+#define INFILE_H
 
 char *infile(char *line);
 

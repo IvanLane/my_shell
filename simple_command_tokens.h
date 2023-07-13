@@ -1,5 +1,5 @@
-#ifndef SIMPLE_COMMAND_TOKENS
-#define SIMPLE_COMMAND_TOKENS
+#ifndef SIMPLE_COMMAND_TOKENS_H
+#define SIMPLE_COMMAND_TOKENS_H
 
 char **simple_command_tokens(char *command_string);
 
