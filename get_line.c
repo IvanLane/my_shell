@@ -7,9 +7,9 @@
 char *get_line()
 {   
         char *buff; 
-        buff = malloc(BUFF_SIZE);
+        buff = malloc(BUFF_SIZE + 1);
         
-        memset(buff, 0, BUFF_SIZE);
+        memset(buff, 0, BUFF_SIZE + 1);
         int i = 0;
         
         do
@@ -19,10 +19,10 @@ char *get_line()
 
             if(i > BUFF_SIZE)
             {   
-                (buff = realloc(buff, BUFF_SIZE));
+                (buff = realloc(buff, BUFF_SIZE + 1));
             }
 
-        }while(buff[i-1] != '\n');
+        }while(buff[i - 1] != '\n');
 
         buff[i - 1] = 0;
 

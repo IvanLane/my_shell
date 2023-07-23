@@ -14,9 +14,6 @@
 #include "number_of_command.h"
 #include "infile.h"
 
-
-
-
 void exec_command(Simple_cmd **command_table, int number_of_cmd, char *infile, char *append_infile)
 {   
     int count = number_of_cmd;
@@ -26,8 +23,6 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd, char *infile, c
     
     int fd[fd_index][2];
     pid_t pids[count];
-
-    signal(SIGINT, SIG_IGN);
 
     if(count > 1)
     {
@@ -52,35 +47,37 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd, char *infile, c
             if(pids[pid_numb] == 0)
             {   
                 signal(SIGINT, SIG_DFL);
+                signal(SIGTSTP, SIG_DFL);
+
                 if(count == 1)
                 {
-                    if(infile > 0)
+                    if(infile != NULL)
                     {
                         int file_d = open(infile, O_RDWR | O_CREAT, 0777);
                         dup2(file_d, STDOUT_FILENO);
                         close(file_d);
                         if(execve(command_table[pid_numb]->path, command_table[pid_numb]->command_tokens, NULL) == -1)
-                        {
-                            perror("execve");
+                        {   
+                            perror("error");
                             exit(EXIT_FAILURE);
                         }
                     }
-                    else if(append_infile > 0)
+                    else if(append_infile != NULL)
                     {
                         int file_d = open(append_infile, O_RDWR | O_APPEND, 0777);
                         dup2(file_d, STDOUT_FILENO);
                         close(file_d);
                         if(execve(command_table[pid_numb]->path, command_table[pid_numb]->command_tokens, NULL) == -1)
                         {
-                            perror("execve");
+                            perror("error");
                             exit(EXIT_FAILURE);
                         }
                     }
                     else
                     {   
                         if(execve(command_table[pid_numb]->path, command_table[pid_numb]->command_tokens, NULL) == -1)
-                        {
-                            perror("execve");
+                        {   
+                            perror("error");
                             exit(EXIT_FAILURE);
                         }
                     }
@@ -95,7 +92,7 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd, char *infile, c
                     }
                     if(execve(command_table[pid_numb]->path, command_table[pid_numb]->command_tokens, NULL) == -1)
                     {
-                        perror("execve");
+                        perror("error");
                         exit(EXIT_FAILURE);
                     }
                 }
@@ -122,7 +119,7 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd, char *infile, c
                     close(fd[pid_numb][1]);
                     if(execve(command_table[pid_numb]->path, command_table[pid_numb]->command_tokens, NULL) == -1)
                         {
-                            perror("execve");
+                            perror("error");
                             exit(EXIT_FAILURE);
                         }
                 }
@@ -135,7 +132,7 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd, char *infile, c
                     close(fd[pid_numb][1]);
                     if(execve(command_table[pid_numb]->path, command_table[pid_numb]->command_tokens, NULL) == -1)
                         {
-                            perror("execve");
+                            perror("error");
                             exit(EXIT_FAILURE);
                         }
                 }    
@@ -143,8 +140,9 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd, char *infile, c
                 {
                     if(execve(command_table[pid_numb]->path, command_table[pid_numb]->command_tokens, NULL) == -1)
                     {
-                        perror("execve");
+                        perror("error");
                         exit(EXIT_FAILURE);
+
                     }
                 }
             }         
@@ -163,7 +161,7 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd, char *infile, c
                 }
                 if(execve(command_table[pid_numb]->path, command_table[pid_numb]->command_tokens, NULL) == -1)
                 {
-                    perror("execve");
+                    perror("error");
                     exit(EXIT_FAILURE);
                 }
             } 
@@ -176,13 +174,27 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd, char *infile, c
         close(fd[i][1]);
     }
 
-    for(int i = 0; i < count; i++)
-    {
-        waitpid(pids[i], &status, WUNTRACED);
+    // for(int i = 0; i < count; i++)
+    // {   
+        // do{
+        waitpid(pids[0], &status, WUNTRACED | WCONTINUED);
+        // if(WIFEXITED(status))
+        // {
+        //     printf("exit");
+        // }
         if(WIFSIGNALED(status))
         {
-            printf(" process killed by signal: %d\n", WTERMSIG(status));
-        }        
-    }
+            printf("process killed by signal: %d\n", WTERMSIG(status));
+        }
+        else if(WIFSTOPPED(status))
+        {
+            printf("process killed by signal: %d\n", WSTOPSIG(status));
+        }
+        else if(WIFCONTINUED(status))
+        {
+            printf("CONTINUED\n");
+        }
+        // } while (!WIFEXITED(status) && !WIFSIGNALED(status));
+    // }
 
 }

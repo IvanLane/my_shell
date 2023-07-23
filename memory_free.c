@@ -11,14 +11,20 @@
 void memory_free(int number_of_cmd, Simple_cmd **command_table, char **parser, char *line, char *infile, char *append, char  **tokens)
 {   
     int count = number_of_cmd;
+    char **pars = parser;
+    char **toks = tokens;
+    Simple_cmd **cmd_t = command_table;
 
     for(int i = 0; i < count; i++)
     {           
-        free(command_table[i]);
-        free(parser[i]);
+        free(cmd_t[i]);
+        free(pars[i]);
+        free(toks[i]);
     }
-    free(parser);
-    free(command_table);
+    
+    free(pars);
+    free(cmd_t);
+    free(toks);
     
     if(infile > 0)
         free(infile);
@@ -26,13 +32,7 @@ void memory_free(int number_of_cmd, Simple_cmd **command_table, char **parser, c
     if(append > 0)
         free(append);
 
-    
-    for(int i = 0; i < count; i++)
-    {
-        free(tokens[i]);
-    }
-    free(tokens);
-
-    free(line);
+    char *ln = line;
+    free(ln);
 
 }

@@ -5,10 +5,13 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
+#include <signal.h>
+
 
 void internal_commands(char **tokens, char *line, int tokens_number)
 {   
     struct stat buff;
+    // char **tokens = tokenss;
 
     if(!strcmp(tokens[0], "cd"))
     {
@@ -45,6 +48,12 @@ void internal_commands(char **tokens, char *line, int tokens_number)
     }
     else if(!strcmp(tokens[0], "exit"))
     {   
+        for(int i = 0; i < tokens_number; i++)
+        {
+            free(tokens[i]);
+        }
+        free(tokens);   
+        free(line);
         printf("your shell is closed\n");
         exit(EXIT_SUCCESS);
     }
@@ -57,7 +66,12 @@ void internal_commands(char **tokens, char *line, int tokens_number)
         printf("rvfile - delete file\n");
         printf("exit - close shell\n");
         printf("| - redirect\n> - add new file with data or replace data in existing file\n>> - add data in file\n");
+    }
+    else if(!strcmp(tokens[0], "cont"))
+    {   
+        kill(atoi(tokens[1]), SIGCONT);
     } 
+
 
     for(int i = 0; i < tokens_number; i++)
             {
