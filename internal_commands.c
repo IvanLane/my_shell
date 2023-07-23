@@ -7,7 +7,6 @@
 #include <fcntl.h>
 #include <signal.h>
 
-
 void internal_commands(char **tokens, char *line, int tokens_number)
 {   
     struct stat buff;
@@ -70,6 +69,14 @@ void internal_commands(char **tokens, char *line, int tokens_number)
     else if(!strcmp(tokens[0], "cont"))
     {   
         kill(atoi(tokens[1]), SIGCONT);
+    } 
+    else if(!strcmp(tokens[0], "stop"))
+    {   
+        kill(atoi(tokens[1]), SIGSTOP);
+    } 
+    else if(!strcmp(tokens[0], "kill_p"))
+    {   
+        kill(atoi(tokens[1]), SIGKILL);
     } 
 
 

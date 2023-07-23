@@ -9,13 +9,13 @@
 #include <signal.h>
 
 #include "headers.h"
-#define SHELL_MAX_CMDS 8
+#define SHELL_MAX_CMDS 10
 
 
 int main(int argc, char *argv)
 {   
     char *prompt = "my_shell: ";
-    char *internal_cmds[SHELL_MAX_CMDS] = {"cd", "newdir", "rvdir", "newfile", "rvfile", "exit", "help", "cont"};
+    char *internal_cmds[SHELL_MAX_CMDS] = {"cd", "newdir", "rvdir", "newfile", "rvfile", "exit", "help", "cont", "stop", "kill_p"};
 
     char *infile_string;    
     char *append_infile_string;
@@ -38,6 +38,7 @@ int main(int argc, char *argv)
         tokens = simple_command_tokens(line);
         number_of_cmd = number_of_commands(line);
         
+        puts(tokens[0]);
         if(check_internal_cmds(internal_cmds, tokens) == 1)
         {
             internal_commands(tokens, line, tokens_number(line));

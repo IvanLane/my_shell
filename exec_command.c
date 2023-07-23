@@ -174,27 +174,31 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd, char *infile, c
         close(fd[i][1]);
     }
 
-    // for(int i = 0; i < count; i++)
-    // {   
+    for(int i = 0; i < count; i++)
+    {   
         // do{
-        waitpid(pids[0], &status, WUNTRACED | WCONTINUED);
-        // if(WIFEXITED(status))
-        // {
-        //     printf("exit");
-        // }
-        if(WIFSIGNALED(status))
+        if(waitpid(pids[i], &status, WUNTRACED | WCONTINUED) == -1)
+        {
+            perror("wait");
+            exit(EXIT_FAILURE);
+        }
+        if (WIFEXITED(status)) 
+        {
+            printf("process exited with status: %d\n", WEXITSTATUS(status));
+        }
+        else if(WIFSIGNALED(status))
         {
             printf("process killed by signal: %d\n", WTERMSIG(status));
         }
         else if(WIFSTOPPED(status))
         {
-            printf("process killed by signal: %d\n", WSTOPSIG(status));
+           printf("process stopped by signal: %d\n", WSTOPSIG(status));
         }
         else if(WIFCONTINUED(status))
         {
             printf("CONTINUED\n");
         }
         // } while (!WIFEXITED(status) && !WIFSIGNALED(status));
-    // }
+    }
 
 }
