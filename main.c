@@ -28,7 +28,6 @@ int main(int argc, char *argv)
     signal(SIGTSTP, SIG_IGN);
     signal(SIGINT, SIG_IGN);
     
-
     while(1)
     {   
         printf("%s", prompt);
@@ -38,7 +37,7 @@ int main(int argc, char *argv)
         tokens = simple_command_tokens(line);
         number_of_cmd = number_of_commands(line);
         
-        puts(tokens[0]);
+        // puts(tokens[0]);
         if(check_internal_cmds(internal_cmds, tokens) == 1)
         {
             internal_commands(tokens, line, tokens_number(line));

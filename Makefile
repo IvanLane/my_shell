@@ -1,53 +1,12 @@
 #Makefile for my_shell
 
-my_shell: main.o display.o get_line.o internal_commands.o check_internal_cmds.o append_infile.o infile.o number_of_command.o parser.o command_table.o simple_command_tokens.o tokens_number.o get_path.o exec_command.o memory_free.o
-	gcc -o my_shell main.o display.o get_line.o internal_commands.o check_internal_cmds.o infile.o append_infile.o number_of_command.o parser.o command_table.o simple_command_tokens.o tokens_number.o get_path.o exec_command.o memory_free.o
-
-main.o: main.c
-	gcc -c main.c
-
-display.o: display.c
-	gcc -c display.c
-
-get_line.o: get_line.c
-	gcc -c get_line.c
-
-internal_commands.o: internal_commands.c
-	gcc -c internal_commands.c
-
-check_internal_cmds.o: check_internal_cmds.c
-	gcc -c check_internal_cmds.c
-
-infile.o: infile.c
-	gcc -c infile.c
-
-append_infile.o: append_infile.c
-	gcc -c append_infile.c
+OBJECTS = main.o display.o get_line.o internal_commands.o check_internal_cmds.o \
+		append_infile.o infile.o number_of_command.o parser.o command_table.o simple_command_tokens.o \
+		tokens_number.o get_path.o exec_command.o memory_free.o
 
 
-number_of_command.o: number_of_command.c
-	gcc -c number_of_command.c
-
-parser.o: parser.c
-	gcc -c parser.c
-
-command_table.o: command_table.c
-	gcc -c command_table.c 
-
-simple_command_tokens.o: simple_command_tokens.c
-	gcc -c simple_command_tokens.c
-
-tokens_number.o: tokens_number.c
-	gcc -c tokens_number.c
-
-get_path.o: get_path.c
-	gcc -c get_path.c
-
-exec_command.o: exec_command.c
-	gcc -c exec_command.c
-
-memory_free.o: memory_free.c
-	gcc -c memory_free.c
+my_shell: $(OBJECTS)
+	gcc -o my_shell $(OBJECTS)
 
 clean:
 	rm -f *.o my_shell
