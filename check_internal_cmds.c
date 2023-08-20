@@ -44,7 +44,7 @@ void start_modul(char **tokens, char *line, int tokens_number)
     
     for(size_t i = 0; cmds[i] != NULL; i++)
     {
-        if(!strcmp(strncpy(short_cmds, cmds[i], 2), tokens[0]))
+        if(strstr(cmds[i], tokens[0]))
         {
             void (*starter) (char**) = dlsym(handle, "start");
             starter(tokens);

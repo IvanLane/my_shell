@@ -13,7 +13,7 @@
 int main(int argc, char *argv)
 {   
     char *prompt = "my_shell: ";
-
+    char *exit_shell = "exit";
     char *infile_string;    
     char *append_infile_string;
     char *line;
@@ -32,6 +32,7 @@ int main(int argc, char *argv)
         display();
 
         line = get_line();
+        exit_stat(line);
         tokens = simple_command_tokens(line);
         number_of_cmd = number_of_commands(line);
         tokens_numb = tokens_number(line);

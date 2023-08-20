@@ -1,23 +1,60 @@
 #include <stdlib.h>
 #include <string.h>
-#include <stdlib.h>
+#include <stdio.h>
 #include "cmd_mod.h"
 
-#define MAX 3
 
 char **commands()
-{                           
-    char **buff = malloc(sizeof(char*)*MAX);
-    for(size_t i = 0; i < MAX; i++)
-    {   
-        buff[i] = malloc(sizeof(char) * MAX);
-        memset(buff[i], 0, 10);                                 
+{   
+    FILE *fd = fopen("/home/ivan/projects/shell/config", "r");
+    if(fd == NULL)
+    {
+        perror("FILE");
     }
-    buff[0] = "cd_cmd";
-    buff[1] = "mkdir_cmd";
-    buff[2] = NULL;                         
-    // buff[3] = "rm_cmd"; 
-    // buff[4] = "fk_cmd";
-    // buff[5] = NULL;
+
+    fseek(fd, 0, SEEK_END);
+    int size = ftell(fd);
+    fseek(fd, 0, SEEK_SET);
+    char buff_cmds[size];
+    buff_cmds[size] = '\0';
+    fread(buff_cmds, size/sizeof(char), sizeof(char), fd);
+    fclose(fd);
+
+    int max_cmd = 0;
+    int numb = 0;
+    while(buff_cmds[numb] != 0)
+    {
+        if(buff_cmds[numb] == '[')
+            max_cmd++;
+        numb++;
+    }
+
+    char **buff = malloc(sizeof(char*) * max_cmd);
+    for(size_t i = 0; i < max_cmd; i++)
+    {   
+        buff[i] = malloc(sizeof(char) * 10);
+        memset(buff[i], 0, 10);
+    }
+    buff[max_cmd] = NULL;   
+    int k = 0;
+    int index = 0;
+        for(size_t j = 0; buff_cmds[j] != '\0'; j++)
+        {
+            if(buff_cmds[j] != '[' && buff_cmds[j] != ']')
+            {
+                buff[index][k] = buff_cmds[j];
+                k++;
+            }
+            else if(buff_cmds[j] == ']')
+            {
+                buff[index][k + 1] = '\0';
+                printf("buff[%d] = %s\n", index, buff[index]);
+                k = 0;
+                index++;
+                j++;
+            }
+
+        }                                 
+    
     return buff;    
 }

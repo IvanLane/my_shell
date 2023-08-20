@@ -1,2 +1,4 @@
--cd
--mkdir
+[cd]
+[mkdir]
+[rmdir]
+[touch]

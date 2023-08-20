@@ -13,6 +13,8 @@ typedef struct List
 char **commands(void);
 void cd_cmd(char **tokens);
 void mkdir_cmd(char **tokens);
+void rmdir_cmd(char **tokens);
+void touch_cmd(char **tokens);
 void start(char **tokens);
 
 List *init(char *command, char *help, void (*func_ptr) (char **tokens));
