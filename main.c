@@ -9,13 +9,10 @@
 #include <signal.h>
 
 #include "headers.h"
-#define SHELL_MAX_CMDS 10
-
 
 int main(int argc, char *argv)
 {   
     char *prompt = "my_shell: ";
-    char *internal_cmds[SHELL_MAX_CMDS] = {"cd", "newdir", "rvdir", "newfile", "rvfile", "exit", "help", "cont", "stop", "kill_p"};
 
     char *infile_string;    
     char *append_infile_string;
@@ -24,6 +21,7 @@ int main(int argc, char *argv)
     int number_of_cmd;
     char **parse_commands;
     Simple_cmd **cmd_table;
+    int tokens_numb;
 
     signal(SIGTSTP, SIG_IGN);
     signal(SIGINT, SIG_IGN);
@@ -36,21 +34,21 @@ int main(int argc, char *argv)
         line = get_line();
         tokens = simple_command_tokens(line);
         number_of_cmd = number_of_commands(line);
-        
-        // puts(tokens[0]);
-        if(check_internal_cmds(internal_cmds, tokens) == 1)
-        {
-            internal_commands(tokens, line, tokens_number(line));
+        tokens_numb = tokens_number(line);
+
+        if(check_internal_cmds(tokens))
+        {   
+            start_modul(tokens, line, tokens_numb);
             continue;
         }
-        
+
         infile_string = infile(line);
         append_infile_string = append_infile(line);        
         parse_commands = parser(line, number_of_cmd);
         cmd_table = command_table(parse_commands, line);
         exec_command(cmd_table, number_of_cmd, infile_string, append_infile_string);    
         memory_free(number_of_cmd, cmd_table, parse_commands, line, infile_string, append_infile_string, tokens);
-        }
+    }    
 
     return 0;
 }

@@ -21,17 +21,19 @@ char **simple_command_tokens(char *command_string)
         int token_number = 0;
         int index = 0;
 
-        char **simple_command = malloc(sizeof(char*) * count);
-        for(int i = 0; i < count; i++)
+        char **simple_command = malloc(sizeof(char*) * (count + 1));
+        simple_command[count] = NULL;
+
+        for(size_t i = 0; i < count; i++)
         {
-            simple_command[i] = malloc(sizeof(char) * 10);
-            memset(simple_command[i], 0, 10);
+            simple_command[i] = malloc(sizeof(char) * MAX);
+            memset(simple_command[i], 0, MAX);
         }
 
-        for(int i = 0; command_string[i] != '\0'; i++)
+        for(size_t i = 0; command_string[i] != '\0'; i++)
         {
             if(command_string[i] == delim)
-            {
+            {   
                 token_number++;
                 index = 0;
                 i++;
@@ -40,6 +42,8 @@ char **simple_command_tokens(char *command_string)
             simple_command[token_number][index] = command_string[i];
             index++;
         }
+
+
 
     return simple_command;
 }

@@ -80,6 +80,7 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd, char *infile, c
                             perror("error");
                             exit(EXIT_FAILURE);
                         }
+
                     }
                 }
                 else

@@ -17,17 +17,17 @@ char *get_path(char **command_tokens)
     struct stat buffer;
     int count = 1;
     
-    for(int i = 0; i < strlen(path); i++)
-    {
-        if(path[i] == ':')
-        count++;
-    }
+    // for(int i = 0; i < strlen(path); i++)
+    // {
+    //     if(path[i] == ':')
+    //         count++;
+    // }
 
     char *real_path = malloc(sizeof(char) * 50);
     memset(real_path, 0, 50);
 
     int j = 0;
-    for(int i = 0; i < strlen(path); i++)
+    for(size_t i = 0; i < strlen(path); i++)
     {   
         if(path[i] == ':')
         {   
@@ -48,9 +48,10 @@ char *get_path(char **command_tokens)
         j++;
     }
         
-    if(!real_path, &buffer)
-    {   
-        printf("command \"%s\" is not found \n", command_tokens[0]);
-    }
+    // if(!real_path, &buffer)
+    // {   
+    //     printf("command \"%s\" is not found \n", command_tokens[0]);
+    // }
+    // return real_path;
 
 }

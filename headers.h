@@ -1,6 +1,5 @@
 #include "display.h"
 #include "get_line.h"
-#include "internal_commands.h"
 #include "check_internal_cmds.h"
 #include "infile.h"
 #include "append_infile.h"

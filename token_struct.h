@@ -3,7 +3,7 @@
 
 typedef struct Simple_cmd
     {   
-        char *string;
+        char *string_cmd;
         char** (*pnt_token_func) (char*);
         char **command_tokens;
         char* (*pnt_get_path) (char **);

@@ -43,7 +43,7 @@ char **parser(char *line, int number_of_cmd)
         }
         else
         {   
-            parse_commands[k][j - 1] = 0;
+            parse_commands[k][j - 1] = '\0';
             k++;
             index++;
             j = 0;

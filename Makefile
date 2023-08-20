@@ -6,7 +6,7 @@ OBJECTS = main.o display.o get_line.o internal_commands.o check_internal_cmds.o 
 
 
 my_shell: $(OBJECTS)
-	gcc -o my_shell $(OBJECTS)
+	gcc -o my_shell $(OBJECTS) -ldl
 
 clean:
 	rm -f *.o my_shell
