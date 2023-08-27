@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-void exit_stat(char *line)
+void exit_stat(char **line)
 {
-    if(!strcmp(line, "exit"))
+    if(!strcmp(*line, "exit"))
     {
         printf("shell is closed\n");
-        free(line);
+        free(*line);
         exit(EXIT_SUCCESS);
     }
 }

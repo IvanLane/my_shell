@@ -24,13 +24,14 @@ char **simple_command_tokens(char *command_string)
         char **simple_command = malloc(sizeof(char*) * (count + 1));
         simple_command[count] = NULL;
 
-        for(size_t i = 0; i < count; i++)
-        {
-            simple_command[i] = malloc(sizeof(char) * MAX);
-            memset(simple_command[i], 0, MAX);
+        for(size_t i = 0; i < (count); i++)
+        {   
+            // simple_command[i] = malloc(sizeof(char )* 50);
+            // memset(simple_command[i], 0, 50);
+            simple_command[i] = calloc(MAX, sizeof(char));
         }
 
-        for(size_t i = 0; command_string[i] != '\0'; i++)
+        for(size_t i = 0; i < strlen(command_string); i++)
         {
             if(command_string[i] == delim)
             {   
@@ -43,7 +44,7 @@ char **simple_command_tokens(char *command_string)
             index++;
         }
 
-
+    
 
     return simple_command;
 }

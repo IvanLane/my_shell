@@ -5,11 +5,11 @@
 
 void rmdir_cmd(char **tokens)    
 {
-        struct stat buff;
-        if(stat(tokens[1], &buff) == 0)
-        {   
-            rmdir(tokens[1]);
-        }
-        else
-            printf("directory is not exist\n");
+    struct stat buff;
+    if(stat(tokens[1], &buff) == 0)
+    {   
+        rmdir(tokens[1]);
+    }
+    else
+        printf("directory is not exist\n");
 }

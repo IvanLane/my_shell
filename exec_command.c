@@ -18,7 +18,8 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd, char *infile, c
 {   
     int count = number_of_cmd;
     int status;
-    
+    int mode = S_IRWXU | S_IRWXG |S_IROTH;
+
     int fd_index = count - 1;
     
     int fd[fd_index][2];
@@ -53,7 +54,7 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd, char *infile, c
                 {
                     if(infile != NULL)
                     {
-                        int file_d = open(infile, O_RDWR | O_CREAT, 0777);
+                        int file_d = open(infile, O_RDWR | O_CREAT, mode);
                         dup2(file_d, STDOUT_FILENO);
                         close(file_d);
                         if(execve(command_table[pid_numb]->path, command_table[pid_numb]->command_tokens, NULL) == -1)
@@ -64,7 +65,7 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd, char *infile, c
                     }
                     else if(append_infile != NULL)
                     {
-                        int file_d = open(append_infile, O_RDWR | O_APPEND, 0777);
+                        int file_d = open(append_infile, O_RDWR | O_APPEND, mode);
                         dup2(file_d, STDOUT_FILENO);
                         close(file_d);
                         if(execve(command_table[pid_numb]->path, command_table[pid_numb]->command_tokens, NULL) == -1)

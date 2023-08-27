@@ -8,31 +8,51 @@
 #include "parser.h"
 
 
-void memory_free(int number_of_cmd, Simple_cmd **command_table, char **parser, char *line, char *infile, char *append, char  **tokens)
+void memory_free(int number_of_cmd, int tokens_numb, char **line, char ***parse_cmds, char ***tokens, Simple_cmd ***command_table, char *infile, char *append)
 {   
-    int count = number_of_cmd;
-    char **pars = parser;
-    char **toks = tokens;
-    Simple_cmd **cmd_t = command_table;
-
-    for(int i = 0; i < count; i++)
-    {           
-        free(cmd_t[i]);
-        free(pars[i]);
-        free(toks[i]);
+    free(*line);
+ 
+    for(size_t i = 0; i < number_of_cmd; i++)
+    {
+        free(parse_cmds[0][i]);
     }
+    free(*parse_cmds);
     
-    free(pars);
-    free(cmd_t);
-    free(toks);
+    for(size_t i = 0; i < tokens_numb; i++)
+    {
+        free(tokens[0][i]);
+    }
+    free(*tokens);
+
+
+    for(size_t i = 0; i < number_of_cmd; i++)
+    {
+        free(command_table[0][i]->path);
+    }
+
+    for(size_t i = 0; i < tokens_numb; i++)
+    {
+        free(command_table[0][i]->command_tokens);
+    }
+
+
+    // for(int i = 0; i < count; i++)
+    // {   
+    //     free(path[i]);        
+        // free(cmd_t[i]);
+        // free(pars[i]);
+        // free(toks[i]);
+    // }
     
-    if(infile > 0)
-        free(infile);
+    // free(path);
+    // free(pars);
+    // free(cmd_t);
+    // free(toks);
+    
+    // if(infile > 0)
+    //     free(infile);
 
-    if(append > 0)
-        free(append);
-
-    char *ln = line;
-    free(ln);
+    // if(append > 0)
+    //     free(append);
 
 }

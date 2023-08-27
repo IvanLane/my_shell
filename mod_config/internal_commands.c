@@ -10,13 +10,7 @@
 void internal_commands(char **tokens, char *line, int tokens_number)
 {   
     struct stat buff;
-    // char **tokens = tokenss;
 
-    else if(!strcmp(tokens[0], "newfile"))
-    {
-        int file_d = open(tokens[1], O_RDWR | O_CREAT, 0777);
-        close(file_d);
-    }
     else if(!strcmp(tokens[0], "rvfile"))
     {
         remove(tokens[1]);

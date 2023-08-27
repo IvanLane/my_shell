@@ -23,7 +23,9 @@ char **parser(char *line, int number_of_cmd)
 
     int count = number_of_cmd;
     
-    char **parse_commands = malloc(sizeof(char*) * count);
+    char **parse_commands = (char**) malloc(sizeof(char*) * count);
+    // parse_commands[count] = NULL;
+    
     for(int i = 0; i < count; i++)
     {
         parse_commands[i] = malloc(sizeof(char)*MAX);
