@@ -23,7 +23,8 @@ int check_internal_cmds(char **tokens)
         fclose(fd);
         return 1;
     }
-        
+    
+    fclose(fd);
     return 0;
 }
 
