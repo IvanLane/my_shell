@@ -29,7 +29,6 @@ int main(int argc, char *argv)
         line = get_line();
         exit_stat(&line);
         tokens = simple_command_tokens(line);
-        // number_of_cmd = number_of_commands(line);
         tokens_numb = tokens_number(line);
 
         if(check_internal_cmds(tokens))
