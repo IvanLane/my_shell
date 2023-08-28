@@ -8,7 +8,7 @@
 #include "parser.h"
 
 
-void memory_free(int number_of_cmd, int tokens_numb, char **line, char ***parse_cmds, char ***tokens, Simple_cmd ***command_table, char *infile, char *append)
+void memory_free(int number_of_cmd, int tokens_numb, char **line, char ***parse_cmds, char ***tokens, Simple_cmd ***command_table, char **infile, char **append)
 {   
     for(size_t i = 0; i < tokens_numb; i++)
     {
@@ -57,10 +57,10 @@ void memory_free(int number_of_cmd, int tokens_numb, char **line, char ***parse_
     free(*parse_cmds);
 
     
-    // if(infile > 0)
-    //     free(infile);
+    if(infile > 0)
+        free(*infile);
 
-    // if(append > 0)
-    //     free(append);
+    if(append > 0)
+        free(*append);
 
 }

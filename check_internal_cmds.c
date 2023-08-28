@@ -28,7 +28,7 @@ int check_internal_cmds(char **tokens)
     return 0;
 }
 
-void start_modul(char **tokens, char *line, int tokens_number)
+void start_modul(char ***tokens, char **line, int tokens_number)
 {   
 
     void *handle = dlopen("/home/ivan/projects/shell/mod_config/libinternal.so", RTLD_LAZY);
@@ -38,27 +38,17 @@ void start_modul(char **tokens, char *line, int tokens_number)
         exit(1);
     }
 
-    char** (*commands_func_ptr) (void) = dlsym(handle, "commands");
-
-    char **cmds = commands_func_ptr();
-    char short_cmds[10] = {0};
-    
-    for(size_t i = 0; i < 4; i++)
-    {
-        if(strstr(cmds[i], tokens[0]))
-        {
-            void (*starter) (char**) = dlsym(handle, "start");
-            starter(tokens);
-        }
-    }
+    void (*starter) (char**) = dlsym(handle, "start");
+    starter(*tokens);
 
     dlclose(handle);
-    free(line);
+
+    free(*line);
     for(size_t i = 0; i < tokens_number; i++)
     {   
-        free(tokens[i]);
+        free(tokens[0][i]);
     }
-    free(tokens);
+    free(*tokens);
 
 }
 

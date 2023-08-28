@@ -3,6 +3,6 @@
 
 int check_internal_cmds(char **tokens);
 
-void start_modul(char **tokens, char *line, int number_of_cmd);
+void start_modul(char ***tokens, char **line, int number_of_cmd);
 
 #endif

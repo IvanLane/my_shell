@@ -30,7 +30,6 @@ char **commands()
     }
 
     char **buff = malloc(sizeof(char*) * max_cmd);
-    // buff[max_cmd] = NULL;
     for(size_t i = 0; i < max_cmd; i++)
     {   
         buff[i] = malloc(sizeof(char) * 10);
@@ -44,16 +43,13 @@ char **commands()
             if(buff_cmds[j] != '[' && buff_cmds[j] != ']')
             {
                 buff[index][k] = buff_cmds[j];
-                printf("buff[%d] = %d - %c\n", index, buff[index][k], buff[index][k]);
                 k++;
             }
             else if(buff_cmds[j] == ']')
             {
                 buff[index][k + 1] = '\0';
-                printf("buff[%d] = %s\n", index, buff[index]);
                 k = 0;
                 index++;
-                printf("j = %d\n", j);
                 j++;
             }
 

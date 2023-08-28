@@ -33,17 +33,18 @@ int main(int argc, char *argv)
 
         if(check_internal_cmds(tokens))
         {   
-            start_modul(tokens, line, tokens_numb);
+            start_modul(&tokens, &line, tokens_numb);
             continue;
         }
 
-        number_of_cmd = number_of_commands(line);
         infile_string = infile(line);
-        append_infile_string = append_infile(line);        
+        append_infile_string = append_infile(line);
+
+        number_of_cmd = number_of_commands(line);
         parse_commands = parser(line, number_of_cmd);
         cmd_table = command_table(parse_commands, line);
         exec_command(cmd_table, number_of_cmd, infile_string, append_infile_string);    
-        memory_free(number_of_cmd, tokens_numb, &line, &parse_commands, &tokens, &cmd_table, infile_string, append_infile_string);
+        memory_free(number_of_cmd, tokens_numb, &line, &parse_commands, &tokens, &cmd_table, &infile_string, &append_infile_string);
     }    
 
     return 0;

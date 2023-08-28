@@ -16,7 +16,8 @@ void start(char **tokens)
 
     void (*func_ptr[]) (char **tokens) = {cd_cmd, mkdir_cmd, rmdir_cmd, touch_cmd};
 
-    List *cmd_ptrs[count]; 
+
+    List **cmd_ptrs = malloc(sizeof(List*) * count);
 
     cmd_ptrs[0] = init(cmd_string[0], "cd_help", func_ptr[0]);
 
@@ -32,26 +33,26 @@ void start(char **tokens)
     {
         if(!strcmp(tokens[0], ptr->cmd))
         {
-            void (*message) (char **tokens);
-            message = ptr->func_ptr;
-            message(tokens);
+            void (*cmd_func_ptr) (char **tokens);
+            cmd_func_ptr = ptr->func_ptr;
+            cmd_func_ptr(tokens);
             break;
         }
         ptr = ptr->next;
     }
 
+    ptr = cmd_ptrs[0];
+    for(size_t i = 0; i < count; i++)
+    {
+        free(cmd_ptrs[i]);
+    }
+    free(cmd_ptrs);
     
-    // for(size_t i = 0; i < count; i++)
-    // {   
-    //     free(cmd_string[i]);
-    //     printf("cmd [%ld] is free\n", i);
-    // }
-    // free(cmd_string);
-
-    // ptr = cmd_ptrs[0];
-    // for(size_t i = 0; i < count; i++)
-    // {   
-    //     free(cmd_ptrs[i]);
-    // }
+    for(size_t i = 0; i < count; i++)
+    {   
+        free(cmd_string[i]);
+        printf("cmd [%ld] is free\n", i);
+    }
+    free(cmd_string);
 
 }
