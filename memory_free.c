@@ -10,6 +10,7 @@
 
 void memory_free(int number_of_cmd, int tokens_numb, char **line, char ***parse_cmds, char ***tokens, Simple_cmd ***command_table, char **infile, char **append)
 {   
+
     for(size_t i = 0; i < tokens_numb; i++)
     {
         free(tokens[0][i]);
@@ -18,8 +19,9 @@ void memory_free(int number_of_cmd, int tokens_numb, char **line, char ***parse_
 
 
     for(size_t i = 0; i < number_of_cmd; i++)
-    {
-        free(command_table[0][i]->path);
+    {   
+        if(command_table[0][i]->path != NULL)
+            free(command_table[0][i]->path);
     }
 
     // FREE STRUCTS

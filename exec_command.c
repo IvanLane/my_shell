@@ -17,6 +17,7 @@
 void exec_command(Simple_cmd **command_table, int number_of_cmd, char *infile, char *append_infile)
 {   
     int count = number_of_cmd;
+
     int status;
     int mode = S_IRWXU | S_IRWXG |S_IROTH;
 
@@ -35,7 +36,7 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd, char *infile, c
     }
 
     for(int pid_numb = 0; pid_numb < count; pid_numb++ )
-    {
+    {   
         if(pid_numb == 0)
         {   
             pids[pid_numb] = fork();
@@ -81,7 +82,7 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd, char *infile, c
                             perror("error");
                             exit(EXIT_FAILURE);
                         }
-
+                        
                     }
                 }
                 else
@@ -178,7 +179,7 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd, char *infile, c
 
     for(int i = 0; i < count; i++)
     {   
-        // do{
+        do{
         if(waitpid(pids[i], &status, WUNTRACED | WCONTINUED) == -1)
         {
             perror("wait");
@@ -198,9 +199,9 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd, char *infile, c
         }
         else if(WIFCONTINUED(status))
         {
-            printf("CONTINUED\n");
+            printf("pid %d id continued\n", pids[i]);
         }
-        // } while (!WIFEXITED(status) && !WIFSIGNALED(status));
+        } while (!WIFEXITED(status) && !WIFSIGNALED(status));
     }
 
 }

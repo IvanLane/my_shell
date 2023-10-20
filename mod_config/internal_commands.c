@@ -11,10 +11,10 @@ void internal_commands(char **tokens, char *line, int tokens_number)
 {   
     struct stat buff;
 
-    else if(!strcmp(tokens[0], "rvfile"))
-    {
-        remove(tokens[1]);
-    }
+    // if(!strcmp(tokens[0], "rvfile"))
+    // {
+    //     remove(tokens[1]);
+    // }
 
     else if(!strcmp(tokens[0], "help"))
     {

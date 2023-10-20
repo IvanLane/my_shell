@@ -6,7 +6,7 @@
 
 char **commands()
 {   
-    FILE *fd = fopen("/home/ivan/projects/shell/config", "r");
+    FILE *fd = fopen("/home/ivan/projects/shell/mod_config/config", "r");
     if(fd == NULL)
     {
         perror("FILE");

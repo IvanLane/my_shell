@@ -2,3 +2,5 @@
 [mkdir]
 [rmdir]
 [touch]
+[rm]
+[help]

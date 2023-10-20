@@ -5,8 +5,8 @@
 # 		tokens_number.o get_path.o exec_command.o memory_free.o
 
 
-libinternal.so: list_init.o add_elem.o cd_cmd.o mkdir_cmd.o rmdir_cmd.o touch_cmd.o rm_cmd.o commands.o start.o 
-	gcc -shared list_init.o add_elem.o cd_cmd.o mkdir_cmd.o rmdir_cmd.o touch_cmd.o rm_cmd.o commands.o start.o -o libinternal.so
+libinternal.so: list_init.o add_elem.o cd_cmd.o mkdir_cmd.o rmdir_cmd.o touch_cmd.o rm_cmd.o help_cmd.o commands.o start.o 
+	gcc -shared list_init.o add_elem.o cd_cmd.o mkdir_cmd.o rmdir_cmd.o touch_cmd.o rm_cmd.o help_cmd.o commands.o start.o -o libinternal.so
 
 
 list_init.o: list_init.c
@@ -30,6 +30,9 @@ touch_cmd.o: touch_cmd.c
 
 rm_cmd.o: rm_cmd.c
 	gcc -c rm_cmd.c -fPIC
+
+help_cmd.o: help_cmd.c
+	gcc -c help_cmd.c -fPIC
 
 commands.o: commands.c
 	gcc -c commands.c -fPIC

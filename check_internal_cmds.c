@@ -5,7 +5,7 @@
 
 int check_internal_cmds(char **tokens)
 {   
-    FILE *fd = fopen("/home/ivan/projects/shell/config", "r");
+    FILE *fd = fopen("/home/ivan/projects/shell/mod_config/config", "r");
     if(fd == NULL)
     {
         perror("FILE");

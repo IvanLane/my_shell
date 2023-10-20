@@ -5,16 +5,11 @@
     
 void start(char **tokens)
 {   
-    int count = 4;
+    int count = 6;
 
     char **cmd_string = commands();
-    // for(size_t i = 0; cmd_string[i] != NULL; i++)
-    // {
-    //     count++;
-    // }
 
-
-    void (*func_ptr[]) (char **tokens) = {cd_cmd, mkdir_cmd, rmdir_cmd, touch_cmd};
+    void (*func_ptr[]) (char **tokens) = {cd_cmd, mkdir_cmd, rmdir_cmd, touch_cmd, rm_cmd, help_cmd};
 
 
     List **cmd_ptrs = malloc(sizeof(List*) * count);

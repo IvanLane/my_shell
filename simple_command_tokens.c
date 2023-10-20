@@ -3,17 +3,17 @@
 #include <string.h>
 
 #include "token_struct.h"
-#define MAX 50
+#define MAX 1024
 
-char **simple_command_tokens(char *command_string)
+char **simple_command_tokens(char *line)
 {   
         char delim = ' ';
         int count = 1;
         int numb = 0;
 
-        while(numb < strlen(command_string))
+        while(numb <=strlen(line))
         {
-            if(command_string[numb] == delim)
+            if(line[numb] == delim)
                 count++;
             numb++;
         }
@@ -24,26 +24,23 @@ char **simple_command_tokens(char *command_string)
         char **simple_command = malloc(sizeof(char*) * (count + 1));
         simple_command[count] = NULL;
 
-        for(size_t i = 0; i < (count); i++)
+        for(size_t i = 0; i < count; i++)
         {   
-            // simple_command[i] = malloc(sizeof(char )* 50);
-            // memset(simple_command[i], 0, 50);
             simple_command[i] = calloc(MAX, sizeof(char));
         }
 
-        for(size_t i = 0; i < strlen(command_string); i++)
+        for(size_t i = 0; i < numb; i++)
         {
-            if(command_string[i] == delim)
+            if(line[i] == delim)
             {   
                 token_number++;
                 index = 0;
                 i++;
             }
 
-            simple_command[token_number][index] = command_string[i];
+            simple_command[token_number][index] = line[i];
             index++;
         }
-
     
 
     return simple_command;
