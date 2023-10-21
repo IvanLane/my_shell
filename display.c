@@ -11,5 +11,6 @@ void display()
     {
         perror("getcwd");
     }
-    printf("%s$ ", work_dir);
+    
+    printf("my_shell: %s$ ", work_dir);
 }
