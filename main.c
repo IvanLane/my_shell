@@ -43,8 +43,7 @@ int main(int argc, char *argv)
         number_of_cmd = number_of_commands(line);
         parse_commands = parser(line, number_of_cmd);
         cmd_table = command_table(parse_commands, line);
-        // MAKE CHECK PATH_FUNCTION
-        if(cmd_table[0]->path != NULL)
+        if(check_path(cmd_table, number_of_cmd))
             exec_command(cmd_table, number_of_cmd, infile_string, append_infile_string);    
         memory_free(number_of_cmd, tokens_numb, &line, &parse_commands, &tokens, &cmd_table, &infile_string, &append_infile_string);
     }    

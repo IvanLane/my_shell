@@ -4,5 +4,6 @@
         "token_struct.h": "c",
         "simple_command_tokens.h": "c",
         "memory_free.h": "c"
-    }
+    },
+    "C_Cpp.dimInactiveRegions": false
 }

@@ -9,5 +9,6 @@
 #include "simple_command_tokens.h"
 #include "tokens_number.h"
 #include "token_struct.h"
+#include "check_path.h"
 #include "exec_command.h"
 #include "memory_free.h"

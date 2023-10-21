@@ -130,7 +130,7 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd, char *infile, c
                 }
                 else if(append_infile > 0)
                 {
-                    int file_d = open(append_infile, append_infile_flags, 0777);
+                    int file_d = open(append_infile, append_infile_flags, mode);
                     dup2(file_d, STDOUT_FILENO);
                     close(file_d);
                     close(fd[pid_numb][0]);
