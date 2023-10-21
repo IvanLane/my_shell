@@ -20,6 +20,8 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd, char *infile, c
 
     int status;
     int mode = S_IRWXU | S_IRWXG |S_IROTH;
+    int infile_flags = O_RDWR | O_CREAT | O_TRUNC;
+    int append_infile_flags = O_RDWR |O_APPEND;
 
     int fd_index = count - 1;
     
@@ -55,7 +57,7 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd, char *infile, c
                 {
                     if(infile != NULL)
                     {
-                        int file_d = open(infile, O_RDWR | O_CREAT, mode);
+                        int file_d = open(infile, infile_flags, mode);
                         dup2(file_d, STDOUT_FILENO);
                         close(file_d);
                         if(execve(command_table[pid_numb]->path, command_table[pid_numb]->command_tokens, NULL) == -1)
@@ -66,7 +68,7 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd, char *infile, c
                     }
                     else if(append_infile != NULL)
                     {
-                        int file_d = open(append_infile, O_RDWR | O_APPEND, mode);
+                        int file_d = open(append_infile, append_infile_flags, mode);
                         dup2(file_d, STDOUT_FILENO);
                         close(file_d);
                         if(execve(command_table[pid_numb]->path, command_table[pid_numb]->command_tokens, NULL) == -1)
@@ -115,7 +117,7 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd, char *infile, c
 
                 if(infile > 0)
                 {
-                    int file_d = open(infile, O_RDWR | O_CREAT, 0777);
+                    int file_d = open(infile, infile_flags, mode);
                     dup2(file_d, STDOUT_FILENO);
                     close(file_d);
                     close(fd[pid_numb][0]);
@@ -128,7 +130,7 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd, char *infile, c
                 }
                 else if(append_infile > 0)
                 {
-                    int file_d = open(append_infile, O_RDWR | O_APPEND, 0777);
+                    int file_d = open(append_infile, append_infile_flags, 0777);
                     dup2(file_d, STDOUT_FILENO);
                     close(file_d);
                     close(fd[pid_numb][0]);

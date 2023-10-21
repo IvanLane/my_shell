@@ -10,3 +10,4 @@ my_shell: $(OBJECTS)
 
 clean:
 	rm -f *.o my_shell
+	rmdir test
