@@ -181,29 +181,29 @@ void exec_command(Simple_cmd **command_table, int number_of_cmd, char *infile, c
 
     for(int i = 0; i < count; i++)
     {   
-        do{
-        if(waitpid(pids[i], &status, WUNTRACED | WCONTINUED) == -1)
-        {
-            perror("wait");
-            exit(EXIT_FAILURE);
-        }
-        if (WIFEXITED(status)) 
-        {
-            printf("process exited with status: %d\n", WEXITSTATUS(status));
-        }
-        else if(WIFSIGNALED(status))
-        {
-            printf("process killed by signal: %d\n", WTERMSIG(status));
-        }
-        else if(WIFSTOPPED(status))
-        {
-           printf("process stopped by signal: %d\n", WSTOPSIG(status));
-        }
-        else if(WIFCONTINUED(status))
-        {
-            printf("pid %d id continued\n", pids[i]);
-        }
-        } while (!WIFEXITED(status) && !WIFSIGNALED(status));
+         do{
+            if(waitpid(pids[i], &status, WUNTRACED | WCONTINUED) == -1)
+            {
+                perror("wait");
+                exit(EXIT_FAILURE);
+            }
+            if (WIFEXITED(status)) 
+            {
+                printf("process exited with status: %d\n", WEXITSTATUS(status));
+            }
+            else if(WIFSIGNALED(status))
+            {
+                printf("process killed by signal: %d\n", WTERMSIG(status));
+            }
+            else if(WIFSTOPPED(status))
+            {
+                printf("process stopped by signal: %d\n", WSTOPSIG(status));
+            }
+            else if(WIFCONTINUED(status))
+            {
+                printf("process %d continued\n", pids[i]);
+            }
+            } while (!WIFEXITED(status) && !WIFSIGNALED(status));
     }
 
 }
