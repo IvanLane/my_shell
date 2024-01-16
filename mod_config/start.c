@@ -46,7 +46,6 @@ void start(char **tokens)
     for(size_t i = 0; i < count; i++)
     {   
         free(cmd_string[i]);
-        // printf("cmd [%ld] is free\n", i);
     }
     free(cmd_string);
 

@@ -9,14 +9,8 @@
 
 void internal_commands(char **tokens, char *line, int tokens_number)
 {   
-    struct stat buff;
 
-    // if(!strcmp(tokens[0], "rvfile"))
-    // {
-    //     remove(tokens[1]);
-    // }
-
-    else if(!strcmp(tokens[0], "help"))
+    if(!strcmp(tokens[0], "help"))
     {
         printf("cd - change directory\n");
         printf("newdir - create new directory\n");
